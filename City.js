@@ -17,8 +17,9 @@ window.onload = function init() {
 
     // Add  a camera so we can view the scene
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
-    camera.position.y = 160;
-    camera.position.z = 200;
+    camera.position.x = 100;
+    camera.position.y = 50;
+    camera.position.z = 100;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
 
@@ -116,9 +117,22 @@ window.onload = function init() {
     building1.position.set(68, 10, 25)
     scene.add(building1)
 
-    let BuildingGeometry2 = new THREE.BoxGeometry(10, 20, 10, 3, 3, 3)
+    let windowGeometry1 = new THREE.PlaneGeometry(2, 3)
+    let windowMaterial1 = new THREE.MeshBasicMaterial({ color: 0x8ABEC2 })
+    let window8 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window8.position.set(-3, 7, 5.1)
+    building1.add(window8)
+    
+    let window9 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window9.position.set(0, 7, 5.1)
+    building1.add(window9)
+
+    let window10 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window10.position.set(3, 7, 5.1)
+    building1.add(window10)
+
     let BuildingMaterial2 = new THREE.MeshBasicMaterial({ color: 0x9C5941 })
-    let building2 = new THREE.Mesh(BuildingGeometry2, BuildingMaterial2)
+    let building2 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial2)
     building2.position.set(56, 10, 25)
     scene.add(building2)
 
@@ -128,36 +142,94 @@ window.onload = function init() {
     building3.position.set(43, 5, 25)
     scene.add(building3)
 
-    let BuildingGeometry4 = new THREE.BoxGeometry(10, 20, 10, 3, 3, 3)
     let BuildingMaterial4 = new THREE.MeshBasicMaterial({ color: 0x877663 })
-    let building4 = new THREE.Mesh(BuildingGeometry4, BuildingMaterial4)
+    let building4 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial4)
     building4.position.set(68, 10, 10)
     scene.add(building4)
 
-    let BuildingGeometry5 = new THREE.BoxGeometry(10, 10, 10, 3, 3, 3)
     let BuildingMaterial5 = new THREE.MeshBasicMaterial({ color: 0x9C5941 })
-    let building5 = new THREE.Mesh(BuildingGeometry5, BuildingMaterial5)
+    let building5 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial5)
     building5.position.set(56, 5, 10)
     scene.add(building5)
 
-    let BuildingGeometry6 = new THREE.BoxGeometry(10, 20, 10, 3, 3, 3)
     let BuildingMaterial6 = new THREE.MeshBasicMaterial({ color: 0x000001 })
-    let building6 = new THREE.Mesh(BuildingGeometry6, BuildingMaterial6)
+    let building6 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial6)
     building6.position.set(43, 10, 10)
     scene.add(building6)
 
-    // Fabric
-    let mtlLoader = new THREE.MTLLoader();
-    mtlLoader.load('./models/fabrica.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/fabrica.obj', function (object) {
-            trashCan = object;
-            trashCan.scale.set(0.01, 0.01, 0.01);
-            scene.add(trashCan);
-        });
-    });
+    // Factory
+    let FactoryGeometry6 = new THREE.BoxGeometry(50, 20, 30, 3, 3, 3)
+    let FactoryMaterial6 = new THREE.MeshBasicMaterial({ color: 0x877663 })
+    let factory = new THREE.Mesh(FactoryGeometry6, FactoryMaterial6)
+    factory.position.set(-8, 10, -35)
+    scene.add(factory)
+
+    let gateGeometry = new THREE.PlaneGeometry(20, 10)
+    let gateMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })
+    let gate = new THREE.Mesh(gateGeometry, gateMaterial)
+    gate.position.set(-12, -5, 15.1)
+    factory.add(gate)
+
+    let gate1 = new THREE.Mesh(gateGeometry, gateMaterial)
+    gate1.position.set(12, -5, 15.1)
+    factory.add(gate1)
+
+    let windowGeometry = new THREE.PlaneGeometry(5, 5)
+    let windowMaterial = new THREE.MeshBasicMaterial({ color: 0x8ABEC2, side: THREE.DoubleSide })
+    let Window = new THREE.Mesh(windowGeometry, windowMaterial)
+    Window.position.set(-21, 5, 15.1)
+    factory.add(Window)
+
+    let Window1 = new THREE.Mesh(windowGeometry, windowMaterial)
+    Window1.position.set(-15, 5, 15.1)
+    factory.add(Window1)
+
+    let Window2 = new THREE.Mesh(windowGeometry, windowMaterial)
+    Window2.position.set(-9, 5, 15.1)
+    factory.add(Window2)
+
+    let Window3 = new THREE.Mesh(windowGeometry, windowMaterial)
+    Window3.position.set(-3, 5, 15.1)
+    factory.add(Window3)
+
+    let Window4 = new THREE.Mesh(windowGeometry, windowMaterial)
+    Window4.position.set(3, 5, 15.1)
+    factory.add(Window4)
+
+    let Window5 = new THREE.Mesh(windowGeometry, windowMaterial)
+    Window5.position.set(9, 5, 15.1)
+    factory.add(Window5)
+
+    let Window6 = new THREE.Mesh(windowGeometry, windowMaterial)
+    Window6.position.set(15, 5, 15.1)
+    factory.add(Window6)
+
+    let Window7 = new THREE.Mesh(windowGeometry, windowMaterial)
+    Window7.position.set(21, 5, 15.1)
+    factory.add(Window7)
+
+
+    let fenceGeometry = new THREE.PlaneGeometry(40, 5)
+    let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0x303030, side: THREE.DoubleSide })
+    let fence = new THREE.Mesh(fenceGeometry, fenceMaterial)
+    fence.rotation.y = Math.PI / 2
+    fence.position.set(-40, 2.5, -30)
+    scene.add(fence)
+
+    let fence1 = new THREE.Mesh(fenceGeometry, fenceMaterial)
+    fence1.rotation.y = Math.PI / 2
+    fence1.position.set(18, 2.5, -30)
+    scene.add(fence1)
+
+    let fenceGeometry1 = new THREE.PlaneGeometry(30, 5)
+    let fence2 = new THREE.Mesh(fenceGeometry1, fenceMaterial)
+    fence2.position.set(-25, 2.5, -10)
+    scene.add(fence2)
+    
+    let fenceGeometry2 = new THREE.PlaneGeometry(5, 5)
+    let fence3 = new THREE.Mesh(fenceGeometry2, fenceMaterial)
+    fence3.position.set(15.5, 2.5, -10)
+    scene.add(fence3)
 
     // Trash Cans model
     let mtlBlueTrash = new THREE.MTLLoader();
@@ -209,7 +281,7 @@ window.onload = function init() {
         loader.load('./models/EcopontoAzul.obj', function (object) {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
-            trashCan.position.set(-40, 0, -21)
+            trashCan.position.set(-42, 0, -21)
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
@@ -222,7 +294,7 @@ window.onload = function init() {
         loader.load('./models/EcopontoAmarelo.obj', function (object) {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
-            trashCan.position.set(-40, 0, -18)
+            trashCan.position.set(-42, 0, -18)
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
@@ -235,7 +307,7 @@ window.onload = function init() {
         loader.load('./models/EcopontoVerde.obj', function (object) {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
-            trashCan.position.set(-40, 0, -15)
+            trashCan.position.set(-42, 0, -15)
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
