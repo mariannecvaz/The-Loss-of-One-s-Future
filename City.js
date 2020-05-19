@@ -27,19 +27,22 @@ window.onload = function init() {
     controls.addEventListener('change', function () { renderer.render(scene, camera); });
 
     //Light
-    let ambientLight = new THREE.AmbientLight(0xE0CF4C, 1)
+    /* let ambientLight = new THREE.AmbientLight(0xE0CF4C, 1) */
+    /* let ambientLight = new THREE.AmbientLight(0xefffd0, 1) */
+    let ambientLight = new THREE.AmbientLight(0xefffc0, 1)
+
     scene.add(ambientLight)
 
     // Floor
     let geometry = new THREE.PlaneGeometry(150, 100);
-    let material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
+    let material = new THREE.MeshPhongMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
     let floor = new THREE.Mesh(geometry, material);
     floor.rotation.x = Math.PI / 2
     scene.add(floor)
 
     // Road
     let RoadGeometry = new THREE.PlaneGeometry(10, 100);
-    let RoadMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+    let RoadMaterial = new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide });
     let road = new THREE.Mesh(RoadGeometry, RoadMaterial);
     road.rotation.x = Math.PI / 2
     road.position.set(25, 0.1, 0)
@@ -65,7 +68,7 @@ window.onload = function init() {
 
     // Grass
     let GrassGeometry = new THREE.BoxGeometry(92, 30, 1);
-    let grassMaterial = new THREE.MeshBasicMaterial({ color: 0x25661D, side: THREE.DoubleSide });
+    let grassMaterial = new THREE.MeshPhongMaterial({ color: 0x25661D, side: THREE.DoubleSide });
     let grass = new THREE.Mesh(GrassGeometry, grassMaterial);
     grass.rotation.x = Math.PI / 2
     grass.position.set(-26, 0.5, 35)
@@ -97,14 +100,14 @@ window.onload = function init() {
 
     // River
     let riverGeometry = new THREE.PlaneGeometry(85, 20);
-    let riverMaterial = new THREE.MeshBasicMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
+    let riverMaterial = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
     let river = new THREE.Mesh(riverGeometry, riverMaterial);
     river.rotation.x = Math.PI / 2
     river.position.set(-30, 0.1, 15)
     scene.add(river)
 
     let riverGeometry1 = new THREE.PlaneGeometry(15, 85);
-    let riverMaterial1 = new THREE.MeshBasicMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
+    let riverMaterial1 = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
     let river1 = new THREE.Mesh(riverGeometry1, riverMaterial1);
     river1.rotation.x = Math.PI / 2
     river1.position.set(-65, 0.1, -7.5)
@@ -112,13 +115,13 @@ window.onload = function init() {
 
     // Buildings
     let BuildingGeometry1 = new THREE.BoxGeometry(10, 20, 10, 3, 3, 3)
-    let BuildingMaterial1 = new THREE.MeshBasicMaterial({ color: 0x000001 })
+    let BuildingMaterial1 = new THREE.MeshPhongMaterial({ color: 0x000001 })
     let building1 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial1)
     building1.position.set(68, 10, 25)
     scene.add(building1)
 
     let windowGeometry1 = new THREE.PlaneGeometry(2, 3)
-    let windowMaterial1 = new THREE.MeshBasicMaterial({ color: 0x8ABEC2 })
+    let windowMaterial1 = new THREE.MeshPhongMaterial({ color: 0x8ABEC2 })
     let window8 = new THREE.Mesh(windowGeometry1, windowMaterial1)
     window8.position.set(-3, 7, 5.1)
     building1.add(window8)
@@ -131,41 +134,41 @@ window.onload = function init() {
     window10.position.set(3, 7, 5.1)
     building1.add(window10)
 
-    let BuildingMaterial2 = new THREE.MeshBasicMaterial({ color: 0x9C5941 })
+    let BuildingMaterial2 = new THREE.MeshPhongMaterial({ color: 0x9C5941 })
     let building2 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial2)
     building2.position.set(56, 10, 25)
     scene.add(building2)
 
     let BuildingGeometry3 = new THREE.BoxGeometry(10, 10, 10, 3, 3, 3)
-    let BuildingMaterial3 = new THREE.MeshBasicMaterial({ color: 0x000001 })
+    let BuildingMaterial3 = new THREE.MeshPhongMaterial({ color: 0x000001 })
     let building3 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial3)
     building3.position.set(43, 5, 25)
     scene.add(building3)
 
-    let BuildingMaterial4 = new THREE.MeshBasicMaterial({ color: 0x877663 })
+    let BuildingMaterial4 = new THREE.MeshPhongMaterial({ color: 0x877663 })
     let building4 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial4)
     building4.position.set(68, 10, 10)
     scene.add(building4)
 
-    let BuildingMaterial5 = new THREE.MeshBasicMaterial({ color: 0x9C5941 })
+    let BuildingMaterial5 = new THREE.MeshPhongMaterial({ color: 0x9C5941 })
     let building5 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial5)
     building5.position.set(56, 5, 10)
     scene.add(building5)
 
-    let BuildingMaterial6 = new THREE.MeshBasicMaterial({ color: 0x000001 })
+    let BuildingMaterial6 = new THREE.MeshPhongMaterial({ color: 0x000001 })
     let building6 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial6)
     building6.position.set(43, 10, 10)
     scene.add(building6)
 
     // Factory
     let FactoryGeometry6 = new THREE.BoxGeometry(50, 20, 30, 3, 3, 3)
-    let FactoryMaterial6 = new THREE.MeshBasicMaterial({ color: 0x877663 })
+    let FactoryMaterial6 = new THREE.MeshPhongMaterial({ color: 0x877663 })
     let factory = new THREE.Mesh(FactoryGeometry6, FactoryMaterial6)
     factory.position.set(-8, 10, -35)
     scene.add(factory)
 
     let gateGeometry = new THREE.PlaneGeometry(20, 10)
-    let gateMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })
+    let gateMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide })
     let gate = new THREE.Mesh(gateGeometry, gateMaterial)
     gate.position.set(-12, -5, 15.1)
     factory.add(gate)
@@ -175,7 +178,7 @@ window.onload = function init() {
     factory.add(gate1)
 
     let windowGeometry = new THREE.PlaneGeometry(5, 5)
-    let windowMaterial = new THREE.MeshBasicMaterial({ color: 0x8ABEC2, side: THREE.DoubleSide })
+    let windowMaterial = new THREE.MeshPhongMaterial({ color: 0x8ABEC2, side: THREE.DoubleSide })
     let Window = new THREE.Mesh(windowGeometry, windowMaterial)
     Window.position.set(-21, 5, 15.1)
     factory.add(Window)
@@ -210,7 +213,7 @@ window.onload = function init() {
 
 
     let fenceGeometry = new THREE.PlaneGeometry(40, 5)
-    let fenceMaterial = new THREE.MeshBasicMaterial({ color: 0x303030, side: THREE.DoubleSide })
+    let fenceMaterial = new THREE.MeshPhongMaterial({ color: 0x303030, side: THREE.DoubleSide })
     let fence = new THREE.Mesh(fenceGeometry, fenceMaterial)
     fence.rotation.y = Math.PI / 2
     fence.position.set(-40, 2.5, -30)
