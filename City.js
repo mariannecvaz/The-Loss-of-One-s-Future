@@ -27,9 +27,7 @@ window.onload = function init() {
     controls.addEventListener('change', function () { renderer.render(scene, camera); });
 
     //Light
-    /* let ambientLight = new THREE.AmbientLight(0xE0CF4C, 1) */
-    /* let ambientLight = new THREE.AmbientLight(0xefffd0, 1) */
-    let ambientLight = new THREE.AmbientLight(0xefffc0, 1)
+    let ambientLight = new THREE.AmbientLight(0xefffd0, 1)
 
     scene.add(ambientLight)
 
