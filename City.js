@@ -17,9 +17,9 @@ window.onload = function init() {
 
     // Add  a camera so we can view the scene
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
-    camera.position.x = 100;
+    camera.position.x = 150;
     camera.position.y = 50;
-    camera.position.z = 100;
+    camera.position.z = 200;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
 
@@ -28,8 +28,16 @@ window.onload = function init() {
 
     //Light
     let ambientLight = new THREE.AmbientLight(0xefffd0, 1)
-
     scene.add(ambientLight)
+
+    let directionalLight = new THREE.DirectionalLight(0xefffd0, 1)
+    directionalLight.position.set(-200, 100, 20)
+    directionalLight.castShadow = true;
+    scene.add(directionalLight)
+
+    // Light Helper
+    let directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 20, "ffffff")
+    scene.add(directionalLightHelper)
 
     // Floor
     let geometry = new THREE.PlaneGeometry(150, 100);
@@ -116,6 +124,7 @@ window.onload = function init() {
     let BuildingMaterial1 = new THREE.MeshPhongMaterial({ color: 0x000001 })
     let building1 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial1)
     building1.position.set(68, 10, 25)
+    building1.castShadow = true;
     scene.add(building1)
 
     let windowGeometry1 = new THREE.PlaneGeometry(2, 3)
@@ -135,27 +144,32 @@ window.onload = function init() {
     let BuildingMaterial2 = new THREE.MeshPhongMaterial({ color: 0x9C5941 })
     let building2 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial2)
     building2.position.set(56, 10, 25)
+    building2.castShadow = true;
     scene.add(building2)
 
     let BuildingGeometry3 = new THREE.BoxGeometry(10, 10, 10, 3, 3, 3)
     let BuildingMaterial3 = new THREE.MeshPhongMaterial({ color: 0x000001 })
     let building3 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial3)
     building3.position.set(43, 5, 25)
+    building3.castShadow = true;
     scene.add(building3)
 
     let BuildingMaterial4 = new THREE.MeshPhongMaterial({ color: 0x877663 })
     let building4 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial4)
     building4.position.set(68, 10, 10)
+    building4.castShadow = true;
     scene.add(building4)
 
     let BuildingMaterial5 = new THREE.MeshPhongMaterial({ color: 0x9C5941 })
     let building5 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial5)
     building5.position.set(56, 5, 10)
+    building5.castShadow = true;
     scene.add(building5)
 
     let BuildingMaterial6 = new THREE.MeshPhongMaterial({ color: 0x000001 })
     let building6 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial6)
     building6.position.set(43, 10, 10)
+    building6.castShadow = true;
     scene.add(building6)
 
     // Factory
@@ -163,6 +177,7 @@ window.onload = function init() {
     let FactoryMaterial6 = new THREE.MeshPhongMaterial({ color: 0x877663 })
     let factory = new THREE.Mesh(FactoryGeometry6, FactoryMaterial6)
     factory.position.set(-8, 10, -35)
+    factory.castShadow = true;
     scene.add(factory)
 
     let gateGeometry = new THREE.PlaneGeometry(20, 10)
@@ -215,21 +230,25 @@ window.onload = function init() {
     let fence = new THREE.Mesh(fenceGeometry, fenceMaterial)
     fence.rotation.y = Math.PI / 2
     fence.position.set(-40, 2.5, -30)
+    fence.castShadow = true;
     scene.add(fence)
 
     let fence1 = new THREE.Mesh(fenceGeometry, fenceMaterial)
     fence1.rotation.y = Math.PI / 2
     fence1.position.set(18, 2.5, -30)
+    fence1.castShadow = true;
     scene.add(fence1)
 
     let fenceGeometry1 = new THREE.PlaneGeometry(30, 5)
     let fence2 = new THREE.Mesh(fenceGeometry1, fenceMaterial)
     fence2.position.set(-25, 2.5, -10)
+    fence2.castShadow = true;
     scene.add(fence2)
     
     let fenceGeometry2 = new THREE.PlaneGeometry(5, 5)
     let fence3 = new THREE.Mesh(fenceGeometry2, fenceMaterial)
     fence3.position.set(15.5, 2.5, -10)
+    fence3.castShadow = true;
     scene.add(fence3)
 
     // Trash Cans model
@@ -242,6 +261,7 @@ window.onload = function init() {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
             trashCan.position.set(33, 0, 9)
+            trashCan.castShadow = true;
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
@@ -256,6 +276,7 @@ window.onload = function init() {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
             trashCan.position.set(33, 0, 12)
+            trashCan.castShadow = true;
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
@@ -270,6 +291,7 @@ window.onload = function init() {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
             trashCan.position.set(33, 0, 15)
+            trashCan.castShadow = true;
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
@@ -283,6 +305,7 @@ window.onload = function init() {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
             trashCan.position.set(-42, 0, -21)
+            trashCan.castShadow = true;
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
@@ -296,6 +319,7 @@ window.onload = function init() {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
             trashCan.position.set(-42, 0, -18)
+            trashCan.castShadow = true;
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
@@ -309,6 +333,7 @@ window.onload = function init() {
             trashCan = object;
             trashCan.scale.set(0.01, 0.01, 0.01);
             trashCan.position.set(-42, 0, -15)
+            trashCan.castShadow = true;
             trashCan.rotation.y = - Math.PI / 2
             scene.add(trashCan);
         });
