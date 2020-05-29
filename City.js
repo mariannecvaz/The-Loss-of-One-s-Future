@@ -532,6 +532,271 @@ window.onload = function init() {
         });
     });
 
+    let trash = new THREE.MTLLoader();
+    trash.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(10, 1, 10)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash1 = new THREE.MTLLoader();
+    trash1.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(-20, 1, 15)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash2 = new THREE.MTLLoader();
+    trash2.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(-50, 1, 5)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash3 = new THREE.MTLLoader();
+    trash3.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(-57, 1, -15)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    /**
+     * Group of trash
+     */
+    let trash4 = new THREE.MTLLoader();
+    trash4.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(-41, 1, -13)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash5 = new THREE.MTLLoader();
+    trash5.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(-41, 1, -12)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash6 = new THREE.MTLLoader();
+    trash6.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(-41, 1.5, -12.5)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash7 = new THREE.MTLLoader();
+    trash7.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(-41.5, 1, -12.5)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    /**
+     * Group of trash End
+     */
+
+    let trash8 = new THREE.MTLLoader();
+    trash8.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(-43, 1, -22)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    /**
+     * Group of trash
+     */
+    let trash9 = new THREE.MTLLoader();
+    trash9.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(33, 1, 18)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash10 = new THREE.MTLLoader();
+    trash10.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(33, 1, 17.5)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash11 = new THREE.MTLLoader();
+    trash11.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(33, 1.5, 17)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash12= new THREE.MTLLoader();
+    trash12.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(33.5, 1, 17)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    /**
+     * Group of trash End
+     */
+
+    let trash13 = new THREE.MTLLoader();
+    trash13.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.01, 0.01, 0.01);
+            trash.position.set(32, 1, 8)
+            trash.castShadow = true;
+            scene.add(trash);
+        });
+    });
+
+    let cigarett1 = new THREE.MTLLoader();
+    cigarett1.load('./models/Cigarett.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Cigarett.obj', function (object) {
+            cigarett = object;
+            cigarett.scale.set(0.03, 0.03, 0.03);
+            cigarett.position.set(0, 1, 8)
+            cigarett.castShadow = true;
+            scene.add(cigarett);
+        });
+    });
+
+    let cigarett2 = new THREE.MTLLoader();
+    cigarett2.load('./models/Cigarett.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Cigarett.obj', function (object) {
+            cigarett = object;
+            cigarett.scale.set(0.03, 0.03, 0.03);
+            cigarett.position.set(0.7, 1, 8)
+            cigarett.castShadow = true;
+            scene.add(cigarett);
+        });
+    });
+
+    let cigarett3 = new THREE.MTLLoader();
+    cigarett3.load('./models/Cigarett.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Cigarett.obj', function (object) {
+            cigarett = object;
+            cigarett.scale.set(0.03, 0.03, 0.03);
+            cigarett.position.set(0.5, 1, 8.2)
+            cigarett.castShadow = true;
+            scene.add(cigarett);
+        });
+    });
+
     document.addEventListener("keydown", doKey);
 
     // Run the animation loop
