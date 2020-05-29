@@ -40,7 +40,7 @@ window.onload = function init() {
 
     // Road
     let geometry = new THREE.PlaneGeometry(150, 100);
-    let material = new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide });
+    let material = new THREE.MeshPhongMaterial({ color: 0x303030, side: THREE.DoubleSide });
     let road = new THREE.Mesh(geometry, material);
     road.rotation.x = Math.PI / 2
     scene.add(road)
@@ -131,7 +131,7 @@ window.onload = function init() {
     let window8 = new THREE.Mesh(windowGeometry1, windowMaterial1)
     window8.position.set(-3, 7, 5.1)
     building1.add(window8)
-    
+
     let window9 = new THREE.Mesh(windowGeometry1, windowMaterial1)
     window9.position.set(0, 7, 5.1)
     building1.add(window9)
@@ -165,8 +165,8 @@ window.onload = function init() {
     building1.add(window16)
 
     let doorGeometry = new THREE.PlaneGeometry(2, 4)
-    let dorMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff })
-    let door = new THREE.Mesh(doorGeometry, dorMaterial)
+    let doorMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff })
+    let door = new THREE.Mesh(doorGeometry, doorMaterial)
     door.position.set(0, -8, 5.1)
     building1.add(door)
 
@@ -176,6 +176,47 @@ window.onload = function init() {
     building2.position.set(56, 10.5, 25)
     building2.castShadow = true;
     scene.add(building2)
+
+
+    let window20 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window20.position.set(-3, 3, 5.1)
+    building2.add(window20)
+
+    let window21 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window21.position.set(0, 3, 5.1)
+    building2.add(window21)
+
+    let window22 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window22.position.set(3, 3, 5.1)
+    building2.add(window22)
+
+    let window23 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window23.position.set(-3, -1, 5.1)
+    building2.add(window23)
+
+    let window24 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window24.position.set(0, -1, 5.1)
+    building2.add(window24)
+
+    let window25 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window25.position.set(3, -1, 5.1)
+    building2.add(window25)
+
+    let window26 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window26.position.set(-3, 7, 5.1)
+    building2.add(window26)
+
+    let window27 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window27.position.set(0, 7, 5.1)
+    building2.add(window27)
+
+    let window28 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window28.position.set(3, 7, 5.1)
+    building2.add(window28)
+
+    let door3 = new THREE.Mesh(doorGeometry, doorMaterial)
+    door3.position.set(0, -8, 5.1)
+    building2.add(door3)
 
     let BuildingGeometry3 = new THREE.BoxGeometry(10, 10, 10, 3, 3, 3)
     let BuildingMaterial3 = new THREE.MeshPhongMaterial({ color: 0x000001 })
@@ -196,22 +237,103 @@ window.onload = function init() {
     window19.position.set(3, 2, 5.1)
     building3.add(window19)
 
-    let door2 = new THREE.Mesh(doorGeometry, dorMaterial)
+    let door2 = new THREE.Mesh(doorGeometry, doorMaterial)
     door2.position.set(0, -3, 5.1)
     building3.add(door2)
 
     let BuildingMaterial4 = new THREE.MeshPhongMaterial({ color: 0x877663 })
     let building4 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial4)
     building4.position.set(68, 10.5, 10)
+    building4.rotation.y = Math.PI
     building4.castShadow = true;
     scene.add(building4)
+    
+    
+    let window29 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window29.position.set(-3, 3, 5.1)
+    building4.add(window29)
+
+    let window30 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window30.position.set(0, 3, 5.1)
+    building4.add(window30)
+
+    let window31 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window31.position.set(3, 3, 5.1)
+    building4.add(window31)
+
+    let window32 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window32.position.set(-3, -1, 5.1)
+    building4.add(window32)
+
+    let window33 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window33.position.set(0, -1, 5.1)
+    building4.add(window33)
+
+    let window34 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window34.position.set(3, -1, 5.1)
+    building4.add(window34)
+
+    let window35 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window35.position.set(-3, 7, 5.1)
+    building4.add(window35)
+
+    let window36 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window36.position.set(0, 7, 5.1)
+    building4.add(window36)
+
+    let window37 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window37.position.set(3, 7, 5.1)
+    building4.add(window37)
+
+    let door4 = new THREE.Mesh(doorGeometry, doorMaterial)
+    door4.position.set(0, -8, 5.1)
+    building4.add(door4)
 
     let BuildingMaterial5 = new THREE.MeshPhongMaterial({ color: 0x9C5941 })
     let building5 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial5)
     building5.position.set(56, 5.5, 10)
     building5.castShadow = true;
     scene.add(building5)
+//ACABAR WINDOWS AND DOORS
+    // let window38 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window29.position.set(-3, 3, 5.1)
+    // building4.add(window29)
 
+    // let window39 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window30.position.set(0, 3, 5.1)
+    // building4.add(window30)
+
+    // let window40 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window31.position.set(3, 3, 5.1)
+    // building4.add(window31)
+
+    // let window41 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window32.position.set(-3, -1, 5.1)
+    // building4.add(window32)
+
+    // let window42 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window33.position.set(0, -1, 5.1)
+    // building4.add(window33)
+
+    // let window43 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window34.position.set(3, -1, 5.1)
+    // building4.add(window34)
+
+    // let window44 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window35.position.set(-3, 7, 5.1)
+    // building4.add(window35)
+
+    // let window45 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window36.position.set(0, 7, 5.1)
+    // building4.add(window36)
+
+    // let window46 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    // window37.position.set(3, 7, 5.1)
+    // building4.add(window37)
+
+    // let door4 = new THREE.Mesh(doorGeometry, doorMaterial)
+    // door4.position.set(0, -8, 5.1)
+    // building4.add(door4)
     let BuildingMaterial6 = new THREE.MeshPhongMaterial({ color: 0x000001 })
     let building6 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial6)
     building6.position.set(43, 10.5, 10)
@@ -315,7 +437,7 @@ window.onload = function init() {
     fence2.position.set(-25, 2.5, -10)
     fence2.castShadow = true;
     scene.add(fence2)
-    
+
     let fenceGeometry2 = new THREE.PlaneGeometry(5, 5)
     let fence3 = new THREE.Mesh(fenceGeometry2, fenceMaterial)
     fence3.position.set(15.5, 2.5, -10)
