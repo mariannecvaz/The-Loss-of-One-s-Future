@@ -799,8 +799,114 @@ window.onload = function init() {
 
     document.addEventListener("keydown", doKey);
 
+    addTree()
+    
     // Run the animation loop
     render();
+}
+//Função que adiciona uma árvore
+function addTree(){
+
+    tree = new THREE.Object3D()
+    //Tronco
+    let logGeometry = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let logMaterial = new THREE.MeshPhongMaterial({ color: 0xA0522D})
+    let log = new THREE.Mesh(logGeometry, logMaterial)
+    log.position.y = 3
+    tree.add(log)
+    //Folhas
+    let branchGeometry = new THREE.SphereGeometry(3, 7, 10)
+    let branchMaterial = new THREE.MeshPhongMaterial({ color: 0x00BB00})
+    let branch = new THREE.Mesh(branchGeometry, branchMaterial)
+    branch.position.y = 3
+    log.add(branch)
+    tree.position.set(1, 1, 9)
+    scene.add(tree)
+
+    tree1 = new THREE.Object3D()
+    //Tronco
+    let logGeometry1 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log1 = new THREE.Mesh(logGeometry1, logMaterial)
+    log1.position.y = 3
+    tree1.add(log1)
+    //Folhas
+    let branchGeometry1 = new THREE.SphereGeometry(3, 7, 10)
+    let branch1 = new THREE.Mesh(branchGeometry1, branchMaterial)
+    branch1.position.y = 3
+    log1.add(branch1)
+    tree1.position.set(-30, 1, 15)
+    scene.add(tree1)
+
+    tree2 = new THREE.Object3D()
+    //Tronco
+    let logGeometry2 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log2 = new THREE.Mesh(logGeometry2, logMaterial)
+    log2.position.y = 3
+    tree2.add(log2)
+    //Folhas
+    let branchGeometry2 = new THREE.SphereGeometry(3, 7, 10)
+    let branch2 = new THREE.Mesh(branchGeometry2, branchMaterial)
+    branch2.position.y = 3
+    log2.add(branch2)
+    tree2.position.set(-50, 1, 15)
+    scene.add(tree2)
+
+    tree3 = new THREE.Object3D()
+    //Tronco
+    let logGeometry3 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log3 = new THREE.Mesh(logGeometry3, logMaterial)
+    log3.position.y = 3
+    tree3.add(log3)
+    //Folhas
+    let branchGeometry3 = new THREE.SphereGeometry(3, 7, 10)
+    let branch3 = new THREE.Mesh(branchGeometry3, branchMaterial)
+    branch3.position.y = 3
+    log3.add(branch3)
+    tree3.position.set(-54, 1, 12)
+    scene.add(tree3)
+
+    tree4 = new THREE.Object3D()
+    //Tronco
+    let logGeometry4 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log4 = new THREE.Mesh(logGeometry4, logMaterial)
+    log4.position.y = 3
+    tree4.add(log4)
+    //Folhas
+    let branchGeometry4 = new THREE.SphereGeometry(3, 7, 10)
+    let branch4 = new THREE.Mesh(branchGeometry4, branchMaterial)
+    branch4.position.y = 3
+    log4.add(branch4)
+    tree4.position.set(-57, 1, -25)
+    scene.add(tree4)
+
+    tree5 = new THREE.Object3D()
+    //Tronco
+    let logGeometry5 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log5 = new THREE.Mesh(logGeometry5, logMaterial)
+    log5.position.y = 3
+    tree5.add(log5)
+    //Folhas
+    let branchGeometry5 = new THREE.SphereGeometry(3, 7, 10)
+    let branch5 = new THREE.Mesh(branchGeometry5, branchMaterial)
+    branch5.position.y = 3
+    log5.add(branch5)
+    tree5.position.set(-15, 1, 40)
+    scene.add(tree5)
+
+    tree6 = new THREE.Object3D()
+    //Tronco
+    let logGeometry6 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log6 = new THREE.Mesh(logGeometry6, logMaterial)
+    log6.position.y = 3
+    tree6.add(log6)
+    //Folhas
+    let branchGeometry6 = new THREE.SphereGeometry(3, 7, 10)
+    let branch6 = new THREE.Mesh(branchGeometry6, branchMaterial)
+    branch6.position.y = 3
+    log6.add(branch6)
+    tree6.position.set(-48, 1, 43)
+    scene.add(tree6)
+
 }
 
 function render() {
