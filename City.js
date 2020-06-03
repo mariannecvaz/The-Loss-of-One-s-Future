@@ -735,7 +735,7 @@ function render() {
 // key handling
 function doKey(event) {
     let key = event.key;
-    if (pos.x < -75 || pos.x > 75 || pos.z < -50 || pos.z > 50) {
+    if (pos.x > -75 && pos.x < 75 && pos.z > -50 && pos.z < 50) {
         if (key == "w") {
             pos.x += 0.5
             console.log(pos.x, pos.y, pos.z)
@@ -755,8 +755,6 @@ function doKey(event) {
         else if (key == "e") {
             angle -= 0.1
         }
-        pos.z +=  Math.cos(angle)
-        pos.x +=  Math.sin(angle)
 
     }
 
