@@ -1,9 +1,11 @@
 let renderer = null,
     scene = null,
-    camera;
+    camera, pivot = new THREE.Object3D();
 
 // The three.js object that represents the car model
 
+let pos = new THREE.Vector3(0, 2.5, 0)
+let angle = Math.PI
 window.onload = function init() {
     // Create the Three.js renderer
     renderer = new THREE.WebGLRenderer();
@@ -44,6 +46,12 @@ window.onload = function init() {
     let road = new THREE.Mesh(geometry, material);
     road.rotation.x = Math.PI / 2
     scene.add(road)
+
+    let cubeG = new THREE.BoxGeometry(5, 5, 5)
+    let cubeM = new THREE.MeshNormalMaterial()
+    let cube = new THREE.Mesh(cubeG, cubeM)
+    scene.add(pivot)
+    pivot.add(cube)
 
     // Floor
     createFloor()
@@ -192,6 +200,9 @@ window.onload = function init() {
 
     document.addEventListener("keydown", doKey);
 
+
+
+
     addTree()
     // Run the animation loop
     render();
@@ -306,6 +317,7 @@ function createBuilding() {
     building1.position.set(68, 10.5, 25)
     building1.castShadow = true;
     scene.add(building1)
+
 
     let windowGeometry1 = new THREE.PlaneGeometry(2, 3)
     let windowMaterial1 = new THREE.MeshPhongMaterial({ color: 0x8ABEC2 })
@@ -711,28 +723,40 @@ function createPark() {
     scene.add(wall2)
 
 }
+
 function render() {
+    pivot.position.set(pos.x, pos.y, pos.z)
+    pivot.rotation.y = angle
+    camera.lookAt(pivot.position)
     renderer.render(scene, camera);
     requestAnimationFrame(render);
 }
 // key handling
 function doKey(event) {
     let key = event.key;
-    if (key == "w") {
-    }
-    else if (key == "s") {
+    if (pos.x < -75 || pos.x > 75 || pos.z < -50 || pos.z > 50) {
+        if (key == "w") {
+            pos.x += 0.5
+            console.log(pos.x, pos.y, pos.z)
+        }
+        else if (key == "s") {
+            pos.x -= 0.5
+        }
+        else if (key == "d") {
+            pos.z += 0.5
+        }
+        else if (key == "a") {
+            pos.z -= 0.5
+        }
+        else if (key == "q") {
+            angle += 0.1
+        }
+        else if (key == "e") {
+            angle -= 0.1
+        }
+        pos.z +=  Math.cos(angle)
+        pos.x +=  Math.sin(angle)
 
     }
-    else if (key == "d") {
 
-    }
-    else if (key == "a") {
-
-    }
-    else if (key == 1) {
-
-    }
-    else if (key == 2) {
-
-    }
 }
