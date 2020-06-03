@@ -77,7 +77,7 @@
             //Geometry
             let geometry = new THREE.SphereGeometry(1, 32, 32);
             //Textures
-            let texture = new THREE.TextureLoader().load("./images/no_clouds_4k.jpg");
+            let texture = new THREE.TextureLoader().load("./images/a45cae2.jpg");
 
             //Material 1 - color map
             let material = new THREE.MeshPhongMaterial();
@@ -89,17 +89,16 @@
             sphere = new THREE.Mesh(geometry, material);
             scene.add(sphere);
 
+            //Material 2
             let geometry1 = new THREE.SphereGeometry(1, 150, 150);
             let clouds = new THREE.TextureLoader().load("./images/fair_clouds_4k.png")
-
-            //Material 2
             let material1 = new THREE.MeshPhongMaterial();
             material1.map = clouds;
             material1.transparent = 0.5
 
             //Mesh 2
             sphere1 = new THREE.Mesh(geometry1, material1);
-            scene.add(sphere1);
+            // scene.add(sphere1);
 
             let geometry2 = new THREE.SphereGeometry(10, 200, 200);
             let stars = new THREE.TextureLoader().load("./images/galaxy_starfield.png")

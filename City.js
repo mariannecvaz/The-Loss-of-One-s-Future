@@ -212,13 +212,14 @@ function addTree() {
     tree = new THREE.Object3D()
     //Tronco
     let logGeometry = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let logMaterial = new THREE.MeshPhongMaterial({ color: 0xA0522D })
+    let logTexture = new THREE.TextureLoader().load("./images/logTexture.jpg")
+    let logMaterial = new THREE.MeshPhongMaterial({ map: logTexture })
     let log = new THREE.Mesh(logGeometry, logMaterial)
     log.position.y = 3
     tree.add(log)
     //Folhas
     let branchGeometry = new THREE.SphereGeometry(3, 7, 10)
-    let branchMaterial = new THREE.MeshPhongMaterial({ color: 0x00BB00 })
+    let branchMaterial = new THREE.MeshLambertMaterial({ color: 0x00BB00 })
     let branch = new THREE.Mesh(branchGeometry, branchMaterial)
     branch.position.y = 3
     log.add(branch)
