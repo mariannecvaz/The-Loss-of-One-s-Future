@@ -46,85 +46,266 @@ window.onload = function init() {
     scene.add(road)
 
     // Floor
-    let floorGeometry = new THREE.BoxGeometry(45, 37, 1);
-    let floorMaterial = new THREE.MeshPhongMaterial({ color: 0x808080, side: THREE.DoubleSide });
-    let floor1 = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor1.rotation.x = Math.PI / 2
-    floor1.position.set(52.5, 0.5, 21)
-    scene.add(floor1)
-
-    let floorGeometry1 = new THREE.BoxGeometry(45, 43, 1);
-    let floor2 = new THREE.Mesh(floorGeometry1, floorMaterial);
-    floor2.rotation.x = Math.PI / 2
-    floor2.position.set(52.5, 0.5, -28.5)
-    scene.add(floor2)
-
-    let floorGeometry2 = new THREE.BoxGeometry(65, 43, 1);
-    let floor3 = new THREE.Mesh(floorGeometry2, floorMaterial);
-    floor3.rotation.x = Math.PI / 2
-    floor3.position.set(-13, 0.5, -28.5)
-    scene.add(floor3)
-
-    // Grass
-    let GrassGeometry = new THREE.BoxGeometry(92, 18, 1);
-    let grassMaterial = new THREE.MeshPhongMaterial({ color: 0x25661D, side: THREE.DoubleSide });
-    let grass = new THREE.Mesh(GrassGeometry, grassMaterial);
-    grass.rotation.x = Math.PI / 2
-    grass.position.set(-26, 0.5, 41)
-    scene.add(grass)
-
-    let GrassGeometry1 = new THREE.BoxGeometry(5, 100, 1);
-    let grass1 = new THREE.Mesh(GrassGeometry1, grassMaterial);
-    grass1.rotation.x = Math.PI / 2
-    grass1.position.set(-73, 0.5, 0)
-    scene.add(grass1)
-
-    let GrassGeometry2 = new THREE.BoxGeometry(5, 53, 1);
-    let grass2 = new THREE.Mesh(GrassGeometry2, grassMaterial);
-    grass2.rotation.x = Math.PI / 2
-    grass2.position.set(-57, 0.5, -23.5)
-    scene.add(grass2)
-
-    let GrassGeometry3 = new THREE.BoxGeometry(79.5, 15, 1);
-    let grass3 = new THREE.Mesh(GrassGeometry3, grassMaterial);
-    grass3.rotation.x = Math.PI / 2
-    grass3.position.set(-19.7, 0.5, 10)
-    scene.add(grass3)
-
-    let grassGeometry4 = new THREE.BoxGeometry(15, 40, 1);
-    let grass4 = new THREE.Mesh(grassGeometry4, grassMaterial);
-    grass4.rotation.x = Math.PI / 2
-    grass4.position.set(12.5, 0.5, 25)
-    scene.add(grass4)
-
-    let grassGeometry5 = new THREE.PlaneGeometry(25, 25);
-    let grass5 = new THREE.Mesh(grassGeometry5, grassMaterial);
-    grass5.position.set(6, -6, -0.6)
-    floor2.add(grass5)
-
-    // River
-    let riverGeometry = new THREE.PlaneGeometry(85, 20);
-    let riverMaterial = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
-    let river = new THREE.Mesh(riverGeometry, riverMaterial);
-    river.rotation.x = Math.PI / 2
-    river.position.set(-30, 0.1, 25)
-    scene.add(river)
-
-    let riverGeometry1 = new THREE.PlaneGeometry(15, 85);
-    let riverMaterial1 = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
-    let river1 = new THREE.Mesh(riverGeometry1, riverMaterial1);
-    river1.rotation.x = Math.PI / 2
-    river1.position.set(-65, 0.1, -7.5)
-    scene.add(river1)
-
+    createFloor()
     // Buildings
+    createBuilding()
+
+    //Park
+    createPark()
+    // Factory
+    createFactory()
+
+    // Trash Cans model
+    let mtlTrashCan = new THREE.MTLLoader();
+    mtlTrashCan.load('./models/Ecopontos.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Ecopontos.obj', function (object) {
+            trashCan = object;
+            trashCan.scale.set(0.015, 0.015, 0.015);
+            trashCan.position.set(32, 1, 5)
+            trashCan.castShadow = true;
+            trashCan.rotation.y = - Math.PI / 2
+            scene.add(trashCan);
+        });
+    });
+
+    mtlTrashCan.load('./models/Ecopontos.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Ecopontos.obj', function (object) {
+            trashCan = object;
+            trashCan.scale.set(0.015, 0.015, 0.015);
+            trashCan.position.set(-45.5, 1, -30)
+            trashCan.castShadow = true;
+            trashCan.rotation.y = - Math.PI / 2
+            scene.add(trashCan);
+        });
+    });
+
+    let trash = new THREE.MTLLoader();
+    trash.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.017, 0.017, 0.017)
+            trash.position.set(10, 1, 10)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash1 = new THREE.MTLLoader();
+    trash1.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.017, 0.017, 0.017)
+            trash.position.set(-20, 1, 15)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash2 = new THREE.MTLLoader();
+    trash2.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.017, 0.017, 0.017)
+            trash.position.set(-50, 1, 5)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash3 = new THREE.MTLLoader();
+    trash3.load('./models/Garbage.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/Garbage.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.017, 0.017, 0.017)
+            trash.position.set(-57, 1, -15)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash4 = new THREE.MTLLoader();
+    trash4.load('./models/groupTrash.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/groupTrash.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.017, 0.017, 0.017)
+            trash.position.set(-46, 1, -30)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let trash9 = new THREE.MTLLoader();
+    trash9.load('./models/groupTrash.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/groupTrash.obj', function (object) {
+            trash = object;
+            trash.scale.set(0.017, 0.017, 0.017)
+            trash.position.set(31.5, 1, 5)
+            trash.castShadow = true;
+            trash.rotation.y = - Math.PI / 2
+            scene.add(trash);
+        });
+    });
+
+    let cigarett1 = new THREE.MTLLoader();
+    cigarett1.load('./models/groupCigarett.mtl', function (materials) {
+        materials.preload();
+        let loader = new THREE.OBJLoader();
+        loader.setMaterials(materials);
+        loader.load('./models/groupCigarett.obj', function (object) {
+            cigarett = object;
+            cigarett.scale.set(0.03, 0.03, 0.03);
+            cigarett.position.set(-8, 1, 9)
+            cigarett.castShadow = true;
+            scene.add(cigarett);
+        });
+    });
+
+
+    document.addEventListener("keydown", doKey);
+
+    addTree()
+    // Run the animation loop
+    render();
+}
+//Função que adiciona uma árvore
+function addTree() {
+    tree = new THREE.Object3D()
+    //Tronco
+    let logGeometry = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let logMaterial = new THREE.MeshPhongMaterial({ color: 0xA0522D })
+    let log = new THREE.Mesh(logGeometry, logMaterial)
+    log.position.y = 3
+    tree.add(log)
+    //Folhas
+    let branchGeometry = new THREE.SphereGeometry(3, 7, 10)
+    let branchMaterial = new THREE.MeshPhongMaterial({ color: 0x00BB00 })
+    let branch = new THREE.Mesh(branchGeometry, branchMaterial)
+    branch.position.y = 3
+    log.add(branch)
+    tree.position.set(1, 1, 9)
+    scene.add(tree)
+
+    tree1 = new THREE.Object3D()
+    //Tronco
+    let logGeometry1 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log1 = new THREE.Mesh(logGeometry1, logMaterial)
+    log1.position.y = 3
+    tree1.add(log1)
+    //Folhas
+    let branchGeometry1 = new THREE.SphereGeometry(3, 7, 10)
+    let branch1 = new THREE.Mesh(branchGeometry1, branchMaterial)
+    branch1.position.y = 3
+    log1.add(branch1)
+    tree1.position.set(-30, 1, 15)
+    scene.add(tree1)
+
+    tree2 = new THREE.Object3D()
+    //Tronco
+    let logGeometry2 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log2 = new THREE.Mesh(logGeometry2, logMaterial)
+    log2.position.y = 3
+    tree2.add(log2)
+    //Folhas
+    let branchGeometry2 = new THREE.SphereGeometry(3, 7, 10)
+    let branch2 = new THREE.Mesh(branchGeometry2, branchMaterial)
+    branch2.position.y = 3
+    log2.add(branch2)
+    tree2.position.set(-50, 1, 15)
+    scene.add(tree2)
+
+    tree3 = new THREE.Object3D()
+    //Tronco
+    let logGeometry3 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log3 = new THREE.Mesh(logGeometry3, logMaterial)
+    log3.position.y = 3
+    tree3.add(log3)
+    //Folhas
+    let branchGeometry3 = new THREE.SphereGeometry(3, 7, 10)
+    let branch3 = new THREE.Mesh(branchGeometry3, branchMaterial)
+    branch3.position.y = 3
+    log3.add(branch3)
+    tree3.position.set(-54, 1, 12)
+    scene.add(tree3)
+
+    tree4 = new THREE.Object3D()
+    //Tronco
+    let logGeometry4 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log4 = new THREE.Mesh(logGeometry4, logMaterial)
+    log4.position.y = 3
+    tree4.add(log4)
+    //Folhas
+    let branchGeometry4 = new THREE.SphereGeometry(3, 7, 10)
+    let branch4 = new THREE.Mesh(branchGeometry4, branchMaterial)
+    branch4.position.y = 3
+    log4.add(branch4)
+    tree4.position.set(-57, 1, -25)
+    scene.add(tree4)
+
+    tree5 = new THREE.Object3D()
+    //Tronco
+    let logGeometry5 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log5 = new THREE.Mesh(logGeometry5, logMaterial)
+    log5.position.y = 3
+    tree5.add(log5)
+    //Folhas
+    let branchGeometry5 = new THREE.SphereGeometry(3, 7, 10)
+    let branch5 = new THREE.Mesh(branchGeometry5, branchMaterial)
+    branch5.position.y = 3
+    log5.add(branch5)
+    tree5.position.set(-15, 1, 40)
+    scene.add(tree5)
+
+    tree6 = new THREE.Object3D()
+    //Tronco
+    let logGeometry6 = new THREE.CylinderGeometry(0.5, 0.5, 6)
+    let log6 = new THREE.Mesh(logGeometry6, logMaterial)
+    log6.position.y = 3
+    tree6.add(log6)
+    //Folhas
+    let branchGeometry6 = new THREE.SphereGeometry(3, 7, 10)
+    let branch6 = new THREE.Mesh(branchGeometry6, branchMaterial)
+    branch6.position.y = 3
+    log6.add(branch6)
+    tree6.position.set(-48, 1, 43)
+    scene.add(tree6)
+
+}
+function createBuilding() {
     let BuildingGeometry1 = new THREE.BoxGeometry(10, 20, 10, 3, 3, 3)
     let BuildingMaterial1 = new THREE.MeshPhongMaterial({ color: 0x303030 })
     let building1 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial1)
     building1.position.set(68, 10.5, 25)
     building1.castShadow = true;
     scene.add(building1)
-
 
     let windowGeometry1 = new THREE.PlaneGeometry(2, 3)
     let windowMaterial1 = new THREE.MeshPhongMaterial({ color: 0x8ABEC2 })
@@ -246,8 +427,8 @@ window.onload = function init() {
     building4.rotation.y = Math.PI
     building4.castShadow = true;
     scene.add(building4)
-    
-    
+
+
     let window29 = new THREE.Mesh(windowGeometry1, windowMaterial1)
     window29.position.set(-3, 3, 5.1)
     building4.add(window29)
@@ -292,78 +473,71 @@ window.onload = function init() {
     let building5 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial5)
     building5.position.set(56, 5.5, 10)
     building5.castShadow = true;
+    building5.rotation.y = Math.PI
     scene.add(building5)
 
+    let window47 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window47.position.set(-3, 2, 5.1)
+    building5.add(window47)
 
+    let window48 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window48.position.set(0, 2, 5.1)
+    building5.add(window48)
 
-//ACABAR WINDOWS AND DOORS
-    // let window38 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window29.position.set(-3, 3, 5.1)
-    // building4.add(window29)
+    let window49 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window49.position.set(3, 2, 5.1)
+    building5.add(window49)
 
-    // let window39 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window30.position.set(0, 3, 5.1)
-    // building4.add(window30)
-
-    // let window40 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window31.position.set(3, 3, 5.1)
-    // building4.add(window31)
-
-    // let window41 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window32.position.set(-3, -1, 5.1)
-    // building4.add(window32)
-
-    // let window42 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window33.position.set(0, -1, 5.1)
-    // building4.add(window33)
-
-    // let window43 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window34.position.set(3, -1, 5.1)
-    // building4.add(window34)
-
-    // let window44 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window35.position.set(-3, 7, 5.1)
-    // building4.add(window35)
-
-    // let window45 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window36.position.set(0, 7, 5.1)
-    // building4.add(window36)
-
-    // let window46 = new THREE.Mesh(windowGeometry1, windowMaterial1)
-    // window37.position.set(3, 7, 5.1)
-    // building4.add(window37)
-
-    // let door4 = new THREE.Mesh(doorGeometry, doorMaterial)
-    // door4.position.set(0, -8, 5.1)
-    // building4.add(door4)
+    let door6 = new THREE.Mesh(doorGeometry, doorMaterial)
+    door6.position.set(0, -3, 5.1)
+    building5.add(door6)
 
     let building6 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial1)
     building6.position.set(43, 10.5, 10)
     building6.castShadow = true;
+    building6.rotation.y = Math.PI
     scene.add(building6)
+    let window38 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window38.position.set(-3, 3, 5.1)
+    building6.add(window38)
 
-    // Wall
-    let WallGeometry = new THREE.BoxGeometry(5, 5 , 1.5)
-    let WallMaterial = new THREE.MeshPhongMaterial({ color: 0x303030 })
-    let wall = new THREE.Mesh(WallGeometry, WallMaterial)
-    wall.position.set(72.5, 2.5, -12.7)
-    wall.castShadow = true;
-    scene.add(wall)
+    let window39 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window39.position.set(0, 3, 5.1)
+    building6.add(window39)
 
-    let WallGeometry1 = new THREE.BoxGeometry(38, 5, 1.5)
-    let wall1 = new THREE.Mesh(WallGeometry1, WallMaterial)
-    wall1.rotation.y = Math.PI / 2
-    wall1.position.set(38, 2.5, -31)
-    wall1.castShadow = true;
-    scene.add(wall1)
+    let window40 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window40.position.set(3, 3, 5.1)
+    building6.add(window40)
 
-    let WallGeometry2 = new THREE.BoxGeometry(27, 5 , 1.5)
-    let wall2 = new THREE.Mesh(WallGeometry2, WallMaterial)
-    wall2.position.set(52, 2.5, -12.7)
-    wall2.castShadow = true;
-    scene.add(wall2)
+    let window41 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window41.position.set(-3, -1, 5.1)
+    building6.add(window41)
 
-    // Factory
+    let window42 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window42.position.set(0, -1, 5.1)
+    building6.add(window42)
+
+    let window43 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window43.position.set(3, -1, 5.1)
+    building6.add(window43)
+
+    let window44 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window44.position.set(-3, 7, 5.1)
+    building6.add(window44)
+
+    let window45 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window45.position.set(0, 7, 5.1)
+    building6.add(window45)
+
+    let window46 = new THREE.Mesh(windowGeometry1, windowMaterial1)
+    window46.position.set(3, 7, 5.1)
+    building6.add(window46)
+
+    let door5 = new THREE.Mesh(doorGeometry, doorMaterial)
+    door5.position.set(0, -8, 5.1)
+    building6.add(door5)
+}
+function createFactory() {
     let FactoryGeometry6 = new THREE.BoxGeometry(50, 20, 30, 3, 3, 3)
     let FactoryMaterial6 = new THREE.MeshPhongMaterial({ color: 0x877663 })
     let factory = new THREE.Mesh(FactoryGeometry6, FactoryMaterial6)
@@ -430,7 +604,7 @@ window.onload = function init() {
     fence1.castShadow = true;
     scene.add(fence1)
 
-    let fenceGeometry1 = new THREE.BoxGeometry(30, 5 , 1.5)
+    let fenceGeometry1 = new THREE.BoxGeometry(30, 5, 1.5)
     let fence2 = new THREE.Mesh(fenceGeometry1, fenceMaterial)
     fence2.position.set(-25, 2.5, -10.75)
     fence2.castShadow = true;
@@ -441,265 +615,110 @@ window.onload = function init() {
     fence3.position.set(15.5, 2.5, -10.75)
     fence3.castShadow = true;
     scene.add(fence3)
-
-    // Trash Cans model
-    let mtlTrashCan = new THREE.MTLLoader();
-    mtlTrashCan.load('./models/Ecopontos.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/Ecopontos.obj', function (object) {
-            trashCan = object;
-            trashCan.scale.set(0.01, 0.01, 0.01);
-            trashCan.position.set(32, 1, 5)
-            trashCan.castShadow = true;
-            trashCan.rotation.y = - Math.PI / 2
-            scene.add(trashCan);
-        });
-    });
-
-    mtlTrashCan.load('./models/Ecopontos.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/Ecopontos.obj', function (object) {
-            trashCan = object;
-            trashCan.scale.set(0.01, 0.01, 0.01);
-            trashCan.position.set(-44, 1, -25)
-            trashCan.castShadow = true;
-            trashCan.rotation.y = - Math.PI / 2
-            scene.add(trashCan);
-        });
-    });
-
-    let trash = new THREE.MTLLoader();
-    trash.load('./models/Garbage.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/Garbage.obj', function (object) {
-            trash = object;
-            trash.scale.set(0.01, 0.01, 0.01);
-            trash.position.set(10, 1, 10)
-            trash.castShadow = true;
-            trash.rotation.y = - Math.PI / 2
-            scene.add(trash);
-        });
-    });
-
-    let trash1 = new THREE.MTLLoader();
-    trash1.load('./models/Garbage.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/Garbage.obj', function (object) {
-            trash = object;
-            trash.scale.set(0.01, 0.01, 0.01);
-            trash.position.set(-20, 1, 15)
-            trash.castShadow = true;
-            trash.rotation.y = - Math.PI / 2
-            scene.add(trash);
-        });
-    });
-
-    let trash2 = new THREE.MTLLoader();
-    trash2.load('./models/Garbage.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/Garbage.obj', function (object) {
-            trash = object;
-            trash.scale.set(0.01, 0.01, 0.01);
-            trash.position.set(-50, 1, 5)
-            trash.castShadow = true;
-            trash.rotation.y = - Math.PI / 2
-            scene.add(trash);
-        });
-    });
-
-    let trash3 = new THREE.MTLLoader();
-    trash3.load('./models/Garbage.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/Garbage.obj', function (object) {
-            trash = object;
-            trash.scale.set(0.01, 0.01, 0.01);
-            trash.position.set(-57, 1, -15)
-            trash.castShadow = true;
-            trash.rotation.y = - Math.PI / 2
-            scene.add(trash);
-        });
-    });
-
-    let trash4 = new THREE.MTLLoader();
-    trash4.load('./models/groupTrash.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/groupTrash.obj', function (object) {
-            trash = object;
-            trash.scale.set(0.01, 0.01, 0.01);
-            trash.position.set(-44.5, 1, -25)
-            trash.castShadow = true;
-            trash.rotation.y = - Math.PI / 2
-            scene.add(trash);
-        });
-    });
-
-    let trash9 = new THREE.MTLLoader();
-    trash9.load('./models/groupTrash.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/groupTrash.obj', function (object) {
-            trash = object;
-            trash.scale.set(0.01, 0.01, 0.01);
-            trash.position.set(31.5, 1, 5)
-            trash.castShadow = true;
-            trash.rotation.y = - Math.PI / 2
-            scene.add(trash);
-        });
-    });
-
-    let cigarett1 = new THREE.MTLLoader();
-    cigarett1.load('./models/groupCigarett.mtl', function (materials) {
-        materials.preload();
-        let loader = new THREE.OBJLoader();
-        loader.setMaterials(materials);
-        loader.load('./models/groupCigarett.obj', function (object) {
-            cigarett = object;
-            cigarett.scale.set(0.03, 0.03, 0.03);
-            cigarett.position.set(-8, 1, 9)
-            cigarett.castShadow = true;
-            scene.add(cigarett);
-        });
-    });
-
-
-document.addEventListener("keydown", doKey);
-
-    addTree()
-    
-    // Run the animation loop
-    render();
 }
-//Função que adiciona uma árvore
-function addTree(){
+function createFloor() {
+    let floorGeometry = new THREE.BoxGeometry(45, 37, 1);
+    let floorMaterial = new THREE.MeshPhongMaterial({ color: 0x808080, side: THREE.DoubleSide });
+    let floor1 = new THREE.Mesh(floorGeometry, floorMaterial);
+    floor1.rotation.x = Math.PI / 2
+    floor1.position.set(52.5, 0.5, 21)
+    scene.add(floor1)
 
-    tree = new THREE.Object3D()
-    //Tronco
-    let logGeometry = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let logMaterial = new THREE.MeshPhongMaterial({ color: 0xA0522D})
-    let log = new THREE.Mesh(logGeometry, logMaterial)
-    log.position.y = 3
-    tree.add(log)
-    //Folhas
-    let branchGeometry = new THREE.SphereGeometry(3, 7, 10)
-    let branchMaterial = new THREE.MeshPhongMaterial({ color: 0x00BB00})
-    let branch = new THREE.Mesh(branchGeometry, branchMaterial)
-    branch.position.y = 3
-    log.add(branch)
-    tree.position.set(1, 1, 9)
-    scene.add(tree)
+    let floorGeometry1 = new THREE.BoxGeometry(45, 43, 1);
+    let floor2 = new THREE.Mesh(floorGeometry1, floorMaterial);
+    floor2.rotation.x = Math.PI / 2
+    floor2.position.set(52.5, 0.5, -28.5)
+    scene.add(floor2)
 
-    tree1 = new THREE.Object3D()
-    //Tronco
-    let logGeometry1 = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let log1 = new THREE.Mesh(logGeometry1, logMaterial)
-    log1.position.y = 3
-    tree1.add(log1)
-    //Folhas
-    let branchGeometry1 = new THREE.SphereGeometry(3, 7, 10)
-    let branch1 = new THREE.Mesh(branchGeometry1, branchMaterial)
-    branch1.position.y = 3
-    log1.add(branch1)
-    tree1.position.set(-30, 1, 15)
-    scene.add(tree1)
+    let floorGeometry2 = new THREE.BoxGeometry(65, 43, 1);
+    let floor3 = new THREE.Mesh(floorGeometry2, floorMaterial);
+    floor3.rotation.x = Math.PI / 2
+    floor3.position.set(-13, 0.5, -28.5)
+    scene.add(floor3)
 
-    tree2 = new THREE.Object3D()
-    //Tronco
-    let logGeometry2 = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let log2 = new THREE.Mesh(logGeometry2, logMaterial)
-    log2.position.y = 3
-    tree2.add(log2)
-    //Folhas
-    let branchGeometry2 = new THREE.SphereGeometry(3, 7, 10)
-    let branch2 = new THREE.Mesh(branchGeometry2, branchMaterial)
-    branch2.position.y = 3
-    log2.add(branch2)
-    tree2.position.set(-50, 1, 15)
-    scene.add(tree2)
+    // Grass
+    let GrassGeometry = new THREE.BoxGeometry(92, 18, 1);
+    let grassMaterial = new THREE.MeshPhongMaterial({ color: 0x25661D, side: THREE.DoubleSide });
+    let grass = new THREE.Mesh(GrassGeometry, grassMaterial);
+    grass.rotation.x = Math.PI / 2
+    grass.position.set(-26, 0.5, 41)
+    scene.add(grass)
 
-    tree3 = new THREE.Object3D()
-    //Tronco
-    let logGeometry3 = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let log3 = new THREE.Mesh(logGeometry3, logMaterial)
-    log3.position.y = 3
-    tree3.add(log3)
-    //Folhas
-    let branchGeometry3 = new THREE.SphereGeometry(3, 7, 10)
-    let branch3 = new THREE.Mesh(branchGeometry3, branchMaterial)
-    branch3.position.y = 3
-    log3.add(branch3)
-    tree3.position.set(-54, 1, 12)
-    scene.add(tree3)
+    let GrassGeometry1 = new THREE.BoxGeometry(5, 100, 1);
+    let grass1 = new THREE.Mesh(GrassGeometry1, grassMaterial);
+    grass1.rotation.x = Math.PI / 2
+    grass1.position.set(-73, 0.5, 0)
+    scene.add(grass1)
 
-    tree4 = new THREE.Object3D()
-    //Tronco
-    let logGeometry4 = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let log4 = new THREE.Mesh(logGeometry4, logMaterial)
-    log4.position.y = 3
-    tree4.add(log4)
-    //Folhas
-    let branchGeometry4 = new THREE.SphereGeometry(3, 7, 10)
-    let branch4 = new THREE.Mesh(branchGeometry4, branchMaterial)
-    branch4.position.y = 3
-    log4.add(branch4)
-    tree4.position.set(-57, 1, -25)
-    scene.add(tree4)
+    let GrassGeometry2 = new THREE.BoxGeometry(5, 53, 1);
+    let grass2 = new THREE.Mesh(GrassGeometry2, grassMaterial);
+    grass2.rotation.x = Math.PI / 2
+    grass2.position.set(-57, 0.5, -23.5)
+    scene.add(grass2)
 
-    tree5 = new THREE.Object3D()
-    //Tronco
-    let logGeometry5 = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let log5 = new THREE.Mesh(logGeometry5, logMaterial)
-    log5.position.y = 3
-    tree5.add(log5)
-    //Folhas
-    let branchGeometry5 = new THREE.SphereGeometry(3, 7, 10)
-    let branch5 = new THREE.Mesh(branchGeometry5, branchMaterial)
-    branch5.position.y = 3
-    log5.add(branch5)
-    tree5.position.set(-15, 1, 40)
-    scene.add(tree5)
+    let GrassGeometry3 = new THREE.BoxGeometry(79.5, 15, 1);
+    let grass3 = new THREE.Mesh(GrassGeometry3, grassMaterial);
+    grass3.rotation.x = Math.PI / 2
+    grass3.position.set(-19.7, 0.5, 10)
+    scene.add(grass3)
 
-    tree6 = new THREE.Object3D()
-    //Tronco
-    let logGeometry6 = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let log6 = new THREE.Mesh(logGeometry6, logMaterial)
-    log6.position.y = 3
-    tree6.add(log6)
-    //Folhas
-    let branchGeometry6 = new THREE.SphereGeometry(3, 7, 10)
-    let branch6 = new THREE.Mesh(branchGeometry6, branchMaterial)
-    branch6.position.y = 3
-    log6.add(branch6)
-    tree6.position.set(-48, 1, 43)
-    scene.add(tree6)
+    let grassGeometry4 = new THREE.BoxGeometry(15, 40, 1);
+    let grass4 = new THREE.Mesh(grassGeometry4, grassMaterial);
+    grass4.rotation.x = Math.PI / 2
+    grass4.position.set(12.5, 0.5, 25)
+    scene.add(grass4)
+
+    let grassGeometry5 = new THREE.PlaneGeometry(25, 25);
+    let grass5 = new THREE.Mesh(grassGeometry5, grassMaterial);
+    grass5.position.set(6, -6, -0.6)
+    floor2.add(grass5)
+
+    // River
+    let riverGeometry = new THREE.PlaneGeometry(85, 20);
+    let riverMaterial = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
+    let river = new THREE.Mesh(riverGeometry, riverMaterial);
+    river.rotation.x = Math.PI / 2
+    river.position.set(-30, 0.1, 25)
+    scene.add(river)
+
+    let riverGeometry1 = new THREE.PlaneGeometry(15, 85);
+    let riverMaterial1 = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
+    let river1 = new THREE.Mesh(riverGeometry1, riverMaterial1);
+    river1.rotation.x = Math.PI / 2
+    river1.position.set(-65, 0.1, -7.5)
+    scene.add(river1)
 
 }
+function createPark() {
+    let WallGeometry = new THREE.BoxGeometry(5, 5, 1.5)
+    let WallMaterial = new THREE.MeshPhongMaterial({ color: 0x303030 })
+    let wall = new THREE.Mesh(WallGeometry, WallMaterial)
+    wall.position.set(72.5, 2.5, -12.7)
+    wall.castShadow = true;
+    scene.add(wall)
 
+    let WallGeometry1 = new THREE.BoxGeometry(38, 5, 1.5)
+    let wall1 = new THREE.Mesh(WallGeometry1, WallMaterial)
+    wall1.rotation.y = Math.PI / 2
+    wall1.position.set(38, 2.5, -31)
+    wall1.castShadow = true;
+    scene.add(wall1)
+
+    let WallGeometry2 = new THREE.BoxGeometry(27, 5, 1.5)
+    let wall2 = new THREE.Mesh(WallGeometry2, WallMaterial)
+    wall2.position.set(52, 2.5, -12.7)
+    wall2.castShadow = true;
+    scene.add(wall2)
+
+}
 function render() {
-
     renderer.render(scene, camera);
     requestAnimationFrame(render);
 }
-
 // key handling
 function doKey(event) {
     let key = event.key;
     if (key == "w") {
-
     }
     else if (key == "s") {
 
