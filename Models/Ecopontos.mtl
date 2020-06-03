@@ -35,3 +35,27 @@ Ks 0.28999999165535 0.28999999165535 0.28999999165535
 Ns 50
 illum 7
 
+newmtl Mat.1
+Ka 1 1 1
+Kd 0.56000000238419 0.56000000238419 0.56000000238419
+illum 7
+
+newmtl Mat
+Ka 1 1 1
+Kd 0.83999997377396 0.41999998688698 0
+Ks 1 1 1
+Ns 50
+illum 7
+
+newmtl Branco
+Ka 1 1 1
+Kd 1 1 1
+illum 7
+
+newmtl Mat_1
+Ka 1 1 1
+Kd 0 0 0
+Ks 1 1 1
+Ns 50
+illum 7
+
