@@ -18,11 +18,11 @@ window.onload = function init() {
     scene = new THREE.Scene();
 
     // Add  a camera so we can view the scene
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
-    camera.position.set(100, 50, 150)
+    camera = new THREE.PerspectiveCamera(10, window.innerWidth / window.innerHeight, 1, 5000);
+    /* camera.position.set(-60, 30, -50) */
+    camera.position.set(300, 300, 300)
+    camera.lookAt(new THREE.Vector3(0, 0, 0))
 
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
-    scene.add(camera);
 
     let controls = new THREE.OrbitControls(camera);
     controls.addEventListener('change', function () { renderer.render(scene, camera); });
@@ -31,13 +31,13 @@ window.onload = function init() {
     let ambientLight = new THREE.AmbientLight(0xefffd0, 1)
     scene.add(ambientLight)
 
-    let directionalLight = new THREE.DirectionalLight(0xefffd0, 1)
+    let directionalLight = new THREE.DirectionalLight(0xefffd0, 0.2)
     directionalLight.position.set(-200, 100, 20)
     directionalLight.castShadow = true;
     scene.add(directionalLight)
 
     // Light Helper
-    let directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 20, "ffffff")
+    let directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 20, 0xffffff)
     scene.add(directionalLightHelper)
 
     // Road
@@ -47,11 +47,12 @@ window.onload = function init() {
     road.rotation.x = Math.PI / 2
     scene.add(road)
 
-    let cubeG = new THREE.BoxGeometry(5, 5, 5)
+    scene.add(pivot)
+
+    /* let cubeG = new THREE.BoxGeometry(5, 5, 5)
     let cubeM = new THREE.MeshNormalMaterial()
     let cube = new THREE.Mesh(cubeG, cubeM)
-    scene.add(pivot)
-    pivot.add(cube)
+    pivot.add(cube) */
 
     // Floor
     createFloor()
@@ -212,7 +213,7 @@ function addTree() {
     tree = new THREE.Object3D()
     //Tronco
     let logGeometry = new THREE.CylinderGeometry(0.5, 0.5, 6)
-    let logTexture = new THREE.TextureLoader().load("./images/logTexture.jpg")
+    let logTexture = new THREE.TextureLoader().load("./images/logTexture.png")
     let logMaterial = new THREE.MeshPhongMaterial({ map: logTexture })
     let log = new THREE.Mesh(logGeometry, logMaterial)
     log.position.y = 3
@@ -723,15 +724,46 @@ function createPark() {
     wall2.castShadow = true;
     scene.add(wall2)
 
+    let seesawGeometry = new THREE.BoxGeometry(2.5, 0.5, 10)
+    let seesawMaterial = new THREE.MeshPhongMaterial({ color: 0x24110C })
+    seesaw = new THREE.Mesh(seesawGeometry, seesawMaterial)
+    seesaw.position.set(50, 2.25, -30)
+    seesaw.castShadow = true;
+    seesaw.rotation.x = 0
+    scene.add(seesaw)
+
+    let structureGeometry = new THREE.CylinderGeometry(0.5, 0.5, 2.5, 30)
+    let structureMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 })
+    let structure = new THREE.Mesh(structureGeometry, structureMaterial)
+    structure.position.set(50, 1.55, -30)
+    structure.castShadow = true;
+    structure.rotation.z = Math.PI / 2
+    scene.add(structure)
+
 }
 
+let speed = 0.01
 function render() {
     pivot.position.set(pos.x, pos.y, pos.z)
     pivot.rotation.y = angle
-    camera.lookAt(pivot.position)
+
+    seesaw.rotation.x += speed
+    if (seesaw.rotation.x <= -0.2 ) {
+        speed += 0.01
+    }else if(seesaw.rotation.x >= 0.2){
+        speed -= 0.01
+    }
+
+    /* let relativeOffset = new THREE.Vector3(0, 0, 30);
+    // updates the offset with the object‘s global transformation matrix
+    let cameraOffset = relativeOffset.applyMatrix4(pivot.matrixWorld);
+    camera.position.copy(cameraOffset);
+
+    camera.lookAt(pivot.position) */
     renderer.render(scene, camera);
     requestAnimationFrame(render);
 }
+
 // key handling
 function doKey(event) {
     let key = event.key;
@@ -755,7 +787,17 @@ function doKey(event) {
         else if (key == "e") {
             angle -= 0.1
         }
-
     }
-
+    else if (pos.x == -75) {
+        pos.x = -74.5
+    }
+    else if (pos.x == 75) {
+        pos.x = 74.5
+    }
+    else if (pos.z == -50) {
+        pos.z = -49.5
+    }
+    else if (pos.z == 50) {
+        pos.z = 49.5
+    }
 }
