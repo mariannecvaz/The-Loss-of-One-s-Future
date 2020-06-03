@@ -9,10 +9,12 @@
             font-family: Font;
             src: url(Font.ttf);
         }
+
         @font-face {
             font-family: Font2;
             src: url(font2.otf);
         }
+
         .container {
             position: absolute;
             justify-content: center;
@@ -32,7 +34,7 @@
 <body>
     <div id="canvas-container" style="position: absolute; left:0px; top:0px">
         <div class="container" width="200px">
-            <button  onclick="window.location.href='City.html'" class="buttonStart">INICIAR JOGO</button>
+            <button onclick="window.location.href='City.html'" class="buttonStart">INICIAR JOGO</button>
         </div>
     </div>
 
@@ -87,6 +89,7 @@
 
             //Mesh 1
             sphere = new THREE.Mesh(geometry, material);
+            sphere.rotation.y = 0.2
             scene.add(sphere);
 
             //Material 2
