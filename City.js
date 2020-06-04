@@ -725,7 +725,7 @@ function createPark() {
     scene.add(wall2)
 
     let seesawGeometry = new THREE.BoxGeometry(2.5, 0.5, 10)
-    let seesawMaterial = new THREE.MeshPhongMaterial({ color: 0x24110C })
+    let seesawMaterial = new THREE.MeshPhongMaterial({ color: 0xA52A2A })
     seesaw = new THREE.Mesh(seesawGeometry, seesawMaterial)
     seesaw.position.set(50, 2.25, -30)
     seesaw.castShadow = true;
@@ -733,12 +733,21 @@ function createPark() {
     scene.add(seesaw)
 
     let structureGeometry = new THREE.CylinderGeometry(0.5, 0.5, 2.5, 30)
-    let structureMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 })
+    let structureMaterial = new THREE.MeshPhongMaterial({ color: 0x000080 })
     let structure = new THREE.Mesh(structureGeometry, structureMaterial)
     structure.position.set(50, 1.55, -30)
     structure.castShadow = true;
     structure.rotation.z = Math.PI / 2
     scene.add(structure)
+
+    let tunelGeometry = new THREE.CylinderGeometry(2, 2, 8.5, 30, 80, 80, true)
+    let tunelMaterial = new THREE.MeshPhongMaterial({ color: 0xA52A2A, side: THREE.DoubleSide })
+    let tunel = new THREE.Mesh(tunelGeometry, tunelMaterial)
+    tunel.position.set(65, 3.10, -35)
+    tunel.rotation.z = Math.PI / 2
+    tunel.rotation.y = Math.PI / 3
+    tunel.castShadow = true;
+    scene.add(tunel)
 
 }
 
