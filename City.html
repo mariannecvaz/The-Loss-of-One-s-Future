@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
-        body { /* set margin to 0 and overflow to hidden, to use the complete page */
+        body {
+            /* set margin to 0 and overflow to hidden, to use the complete page */
             margin: 0;
             overflow: hidden;
         }
@@ -19,6 +20,14 @@
     <script type="text/javascript" src="libs/OBJLoader.js"></script>
     <script type="text/javascript" src="City.js"></script>
 
+    <div id="info" style="position: absolute; margin-left: 15px;">
+        <h3>Lixo Por Apanhar:</h3>
+        <!-- <p><b>Lixo Por Apanhar:</b></p> -->
+        <p id="remaining"></p>
+        <h3>Lixo Apanhado:</h3>
+        <!-- <p><b>Lixo Apanhado:</b></p> -->
+        <p id="pickedUp"></p>
+    </div>
 </body>
 
 </html>
