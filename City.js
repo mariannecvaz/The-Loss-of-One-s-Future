@@ -1,6 +1,9 @@
 let renderer = null,
     scene = null,
     camera,
+    directionalLight,
+    raycaster = new THREE.Raycaster(),
+    mouse = new THREE.Vector2(),
     pivot = new THREE.Object3D(),
     pos = new THREE.Vector3(0, 2.5, 0),
     angle = Math.PI,
@@ -8,17 +11,14 @@ let renderer = null,
     pickedUpTrash = 0;
 
 window.onload = function init() {
-    // Create the Three.js renderer
     renderer = new THREE.WebGLRenderer();
-    // Set the viewport 
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor("#516B84");
     document.body.appendChild(renderer.domElement);
 
-    // Create a new Three.js scene
     scene = new THREE.Scene();
 
-    // Add  a camera so we can view the scene
     camera = new THREE.PerspectiveCamera(10, window.innerWidth / window.innerHeight, 1, 5000);
     // camera.position.set(-60, 30, -50)
     camera.position.set(300, 300, 300)
@@ -28,20 +28,23 @@ window.onload = function init() {
     let controls = new THREE.OrbitControls(camera);
     controls.addEventListener('change', function () { renderer.render(scene, camera); });
 
-    //Light
-    let ambientLight = new THREE.AmbientLight(0xefffd0, 1)
+    // Luz
+    let ambientLight = new THREE.AmbientLight(0xefffd0, 0.8)
     scene.add(ambientLight)
 
-    let directionalLight = new THREE.DirectionalLight(0xefffd0, 0.2)
+    directionalLight = new THREE.DirectionalLight(0xefffd0)
+    directionalLight.intensity = 0.2;
     directionalLight.position.set(-200, 100, 20)
     directionalLight.castShadow = true;
     scene.add(directionalLight)
 
-    // Light Helper
+    // Luz Helper
     let directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 20, 0xffffff)
     scene.add(directionalLightHelper)
 
-    // Road
+    
+
+    // Estrada
     let geometry = new THREE.PlaneGeometry(150, 100);
     let material = new THREE.MeshPhongMaterial({ color: 0x171717, side: THREE.DoubleSide });
     let road = new THREE.Mesh(geometry, material);
@@ -52,22 +55,21 @@ window.onload = function init() {
 
     scene.add(pivot)
 
-    /* let cubeG = new THREE.BoxGeometry(5, 5, 5)
+    let cubeG = new THREE.BoxGeometry(5, 5, 5)
     let cubeM = new THREE.MeshNormalMaterial()
     let cube = new THREE.Mesh(cubeG, cubeM)
-    pivot.add(cube) */
+    pivot.add(cube)
 
-    // Floor
+    // Chão
     createFloor()
-    // Buildings
+    // Prédios
     createBuilding()
-
-    //Park
+    //Parque
     createPark()
-    // Factory
+    // Fábrica
     createFactory()
 
-    // Trash Cans model
+    // Modelo do lixo
     let mtlTrashCan = new THREE.MTLLoader();
     mtlTrashCan.load('./models/Ecopontos.mtl', function (materials) {
         materials.preload();
@@ -82,7 +84,6 @@ window.onload = function init() {
             trash.castShadow = true;
             scene.add(trashCan);
         });
-        /* remainingTrash.push() */
     });
 
     mtlTrashCan.load('./models/Ecopontos.mtl', function (materials) {
@@ -99,7 +100,6 @@ window.onload = function init() {
             trash.castShadow = true;
             scene.add(trashCan);
         });
-        /* remainingTrash.push() */
     });
 
     let trash = new THREE.MTLLoader();
@@ -114,9 +114,10 @@ window.onload = function init() {
             trash.flatShading = true
             trash.receiveShadow = true;
             trash.castShadow = true;
+            trash.name = "trash"
             scene.add(trash);
+            remainingTrash.push(trash)
         });
-        /* remainingTrash.push() */
     });
 
     trash.load('./models/Garbage.mtl', function (materials) {
@@ -130,9 +131,10 @@ window.onload = function init() {
             trash.flatShading = true
             trash.receiveShadow = true;
             trash.castShadow = true;
+            trash.name = "trash"
             scene.add(trash);
+            remainingTrash.push(trash)
         });
-        /* remainingTrash.push() */
     });
 
     trash.load('./models/Garbage.mtl', function (materials) {
@@ -146,9 +148,10 @@ window.onload = function init() {
             trash.flatShading = true
             trash.receiveShadow = true;
             trash.castShadow = true;
+            trash.name = "trash"
             scene.add(trash);
+            remainingTrash.push(trash)
         });
-        /* remainingTrash.push() */
     });
 
     trash.load('./models/Garbage.mtl', function (materials) {
@@ -162,9 +165,10 @@ window.onload = function init() {
             trash.flatShading = true
             trash.receiveShadow = true;
             trash.castShadow = true;
+            trash.name = "trash"
             scene.add(trash);
+            remainingTrash.push(trash)
         });
-        /* remainingTrash.push() */
     });
 
     trash.load('./models/groupTrash.mtl', function (materials) {
@@ -179,9 +183,10 @@ window.onload = function init() {
             trash.flatShading = true
             trash.receiveShadow = true;
             trash.castShadow = true;
+            trash.name = "trash"
             scene.add(trash);
+            remainingTrash.push(trash)
         });
-        /* remainingTrash.push() */
     });
 
     trash.load('./models/groupTrash.mtl', function (materials) {
@@ -196,9 +201,10 @@ window.onload = function init() {
             trash.flatShading = true
             trash.receiveShadow = true;
             trash.castShadow = true;
+            trash.name = "trash"
             scene.add(trash);
+            remainingTrash.push(trash)
         });
-        /* remainingTrash.push() */
     });
 
     let cigarett1 = new THREE.MTLLoader();
@@ -213,21 +219,27 @@ window.onload = function init() {
             cigarett.flatShading = true
             cigarett.receiveShadow = true;
             cigarett.castShadow = true;
+            cigarett.name = "trash"
             scene.add(cigarett);
+            remainingTrash.push(cigarett)
         });
-        /* remainingTrash.push() */
     });
 
-    document.addEventListener("keydown", doKey);
+    console.log("number: " + remainingTrash.length)
+    console.log(remainingTrash)
+
+    document.addEventListener("keydown", doKey, false);
+    document.addEventListener("mousemove", mouseMove, false);
+    document.addEventListener("mousedown", mouseDown, false);
     document.getElementById("remaining").innerHTML = remainingTrash.length;
     document.getElementById("pickedUp").innerHTML = pickedUpTrash;
 
     addTree()
-    // Run the animation loop
+    
     render();
 }
 
-//Função que adiciona uma árvore
+//Função que adiciona as árvores
 function addTree() {
     // Log geometries/material
     let logGeometry = new THREE.CylinderGeometry(0.5, 0.5, 6)
@@ -347,6 +359,7 @@ function addTree() {
     scene.add(tree6)
 }
 
+//Função que adiciona os prédios
 function createBuilding() {
     let BuildingGeometry1 = new THREE.BoxGeometry(10, 20, 10, 3, 3, 3)
     let BuildingMaterial1 = new THREE.MeshPhongMaterial({ color: 0x303030 })
@@ -600,6 +613,7 @@ function createBuilding() {
     building6.add(door5)
 }
 
+//Função que adiciona a fábrica
 function createFactory() {
     let FactoryGeometry6 = new THREE.BoxGeometry(50, 20, 30, 3, 3, 3)
     let FactoryMaterial6 = new THREE.MeshPhongMaterial({ color: 0x877663 })
@@ -696,6 +710,7 @@ function createFactory() {
     scene.add(fence3)
 }
 
+//Função que adiciona o chão
 function createFloor() {
     let floorGeometry = new THREE.BoxGeometry(45, 37, 1);
     let floorMaterial = new THREE.MeshPhongMaterial({ color: 0x808080, side: THREE.DoubleSide });
@@ -865,6 +880,23 @@ function createPark() {
 
 let speed = 0.01
 function render() {
+    raycaster.setFromCamera( mouse, camera );
+
+	// Calcula os objetos que intersetam o raio de escolha
+	let intersects = raycaster.intersectObjects( scene.children.name = "trash");
+
+	for (let i = 0; i < intersects.length; i++ ) {
+        intersects[i].object.material.color.set( 0xffffff );
+        remainingTrash--
+    }
+
+    /* if (remainingTrash >= 5) {
+        directionalLight.intensity = 0.5
+    } else if (remainingTrash = 0) {
+        directionalLight.intensity = 1
+    } */
+
+
     pivot.position.set(pos.x, pos.y, pos.z)
     pivot.rotation.y = angle
 
@@ -887,13 +919,22 @@ function render() {
     requestAnimationFrame(render);
 }
 
-// key handling
+function mouseDown(event) {
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+}
+
+function mouseMove(event) {
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+}
+
 function doKey(event) {
     let key = event.key;
     if (pos.x > -75 && pos.x < 75 && pos.z > -50 && pos.z < 50) {
         if (key == "w") {
             pos.x += 0.5
-            console.log(pos.x, pos.y, pos.z)
+            // console.log(pos.x, pos.y, pos.z)
         }
         else if (key == "s") {
             pos.x -= 0.5
