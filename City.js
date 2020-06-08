@@ -5,13 +5,16 @@ let renderer = null,
     raycaster = new THREE.Raycaster(),
     mouse = new THREE.Vector2(),
     pivot = new THREE.Object3D(),
-    pos = new THREE.Vector3(0, 2.5, 0),
-    angle = Math.PI,
+    pos = new THREE.Vector3(-50, 2.5, -45),
+    angle = 0,
     remainingTrash = [],
-    pickedUpTrash = 0;
+    pickedUpTrash = 0,
+    selectedObject = null;
+
+let camera1isActive = false
 
 window.onload = function init() {
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ antialias: true });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor("#516B84");
@@ -19,30 +22,32 @@ window.onload = function init() {
 
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(10, window.innerWidth / window.innerHeight, 1, 5000);
-    // camera.position.set(-60, 30, -50)
-    camera.position.set(300, 300, 300)
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
+    // camera.position.set(300, 300, 300)
     camera.lookAt(new THREE.Vector3(0, 0, 0))
 
+    camera1 = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
+    camera1.position.y = 160;
+    camera1.position.z = 200;
+    camera1.lookAt(new THREE.Vector3(0, 0, 0));
+    scene.add(camera1);
 
-    let controls = new THREE.OrbitControls(camera);
-    controls.addEventListener('change', function () { renderer.render(scene, camera); });
+    /* let controls = new THREE.OrbitControls(camera);
+    controls.addEventListener('change', function () { renderer.render(scene, camera); }); */
 
     // Luz
-    let ambientLight = new THREE.AmbientLight(0xefffd0, 0.8)
+    let ambientLight = new THREE.HemisphereLight(0xefffd0, 0.8)
     scene.add(ambientLight)
 
     directionalLight = new THREE.DirectionalLight(0xefffd0)
     directionalLight.intensity = 0.2;
-    directionalLight.position.set(-200, 100, 20)
+    directionalLight.position.set(-200, 100, 40)
     directionalLight.castShadow = true;
     scene.add(directionalLight)
 
     // Luz Helper
     let directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 20, 0xffffff)
     scene.add(directionalLightHelper)
-
-    
 
     // Estrada
     let geometry = new THREE.PlaneGeometry(150, 100);
@@ -53,21 +58,14 @@ window.onload = function init() {
     road.castShadow = true;
     scene.add(road)
 
+    let axes = new THREE.AxesHelper(100)
+    pivot.add(axes)
     scene.add(pivot)
 
     let cubeG = new THREE.BoxGeometry(5, 5, 5)
     let cubeM = new THREE.MeshNormalMaterial()
     let cube = new THREE.Mesh(cubeG, cubeM)
     pivot.add(cube)
-
-    // Chão
-    createFloor()
-    // Prédios
-    createBuilding()
-    //Parque
-    createPark()
-    // Fábrica
-    createFactory()
 
     // Modelo do lixo
     let mtlTrashCan = new THREE.MTLLoader();
@@ -116,28 +114,29 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
-            remainingTrash.push(trash)
+
         });
     });
 
-    trash.load('./models/Garbage.mtl', function (materials) {
+    let trash1 = new THREE.MTLLoader();
+    trash1.load('./models/Garbage.mtl', function (materials) {
         materials.preload();
         let loader = new THREE.OBJLoader();
         loader.setMaterials(materials);
         loader.load('./models/Garbage.obj', function (object) {
-            trash = object;
-            trash.scale.set(0.017, 0.017, 0.017)
-            trash.position.set(-20, 1, 15)
-            trash.flatShading = true
-            trash.receiveShadow = true;
-            trash.castShadow = true;
-            trash.name = "trash"
+            trash1 = object;
+            trash1.scale.set(0.017, 0.017, 0.017)
+            trash1.position.set(-20, 1, 15)
+            trash1.flatShading = true
+            trash1.receiveShadow = true;
+            trash1.castShadow = true;
+            trash1.name = "trash"
             scene.add(trash);
-            remainingTrash.push(trash)
         });
     });
 
-    trash.load('./models/Garbage.mtl', function (materials) {
+    let trash2 = new THREE.MTLLoader();
+    trash2.load('./models/Garbage.mtl', function (materials) {
         materials.preload();
         let loader = new THREE.OBJLoader();
         loader.setMaterials(materials);
@@ -150,11 +149,11 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
-            remainingTrash.push(trash)
         });
     });
 
-    trash.load('./models/Garbage.mtl', function (materials) {
+    let trash3 = new THREE.MTLLoader();
+    trash3.load('./models/Garbage.mtl', function (materials) {
         materials.preload();
         let loader = new THREE.OBJLoader();
         loader.setMaterials(materials);
@@ -167,11 +166,11 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
-            remainingTrash.push(trash)
         });
     });
 
-    trash.load('./models/groupTrash.mtl', function (materials) {
+    let trash4 = new THREE.MTLLoader();
+    trash4.load('./models/groupTrash.mtl', function (materials) {
         materials.preload();
         let loader = new THREE.OBJLoader();
         loader.setMaterials(materials);
@@ -185,11 +184,11 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
-            remainingTrash.push(trash)
         });
     });
 
-    trash.load('./models/groupTrash.mtl', function (materials) {
+    let trash5 = new THREE.MTLLoader();
+    trash5.load('./models/groupTrash.mtl', function (materials) {
         materials.preload();
         let loader = new THREE.OBJLoader();
         loader.setMaterials(materials);
@@ -203,12 +202,11 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
-            remainingTrash.push(trash)
         });
     });
 
-    let cigarett1 = new THREE.MTLLoader();
-    cigarett1.load('./models/groupCigarett.mtl', function (materials) {
+    let cigarett = new THREE.MTLLoader();
+    cigarett.load('./models/groupCigarett.mtl', function (materials) {
         materials.preload();
         let loader = new THREE.OBJLoader();
         loader.setMaterials(materials);
@@ -221,9 +219,10 @@ window.onload = function init() {
             cigarett.castShadow = true;
             cigarett.name = "trash"
             scene.add(cigarett);
-            remainingTrash.push(cigarett)
         });
     });
+
+    remainingTrash.push(trash, trash1, trash2, trash3, trash4, trash5, cigarett)
 
     console.log("number: " + remainingTrash.length)
     console.log(remainingTrash)
@@ -231,11 +230,22 @@ window.onload = function init() {
     document.addEventListener("keydown", doKey, false);
     document.addEventListener("mousemove", mouseMove, false);
     document.addEventListener("mousedown", mouseDown, false);
+    document.addEventListener("mouseup", mouseUp, false);
+
     document.getElementById("remaining").innerHTML = remainingTrash.length;
     document.getElementById("pickedUp").innerHTML = pickedUpTrash;
 
+    // Chão
+    createFloor()
+    // Prédios
+    createBuilding()
+    // Parque
+    createPark()
+    // Fábrica
+    createFactory()
+    // Árvores
     addTree()
-    
+
     render();
 }
 
@@ -267,6 +277,13 @@ function addTree() {
     tree.receiveShadow = true;
     tree.castShadow = true;
     scene.add(tree)
+
+    tree.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+        }
+    });
 
     tree1 = new THREE.Object3D()
     //Tronco
@@ -878,58 +895,76 @@ function createPark() {
 
 }
 
-let speed = 0.01
+let seesawSpeed = 0.01
 function render() {
-    raycaster.setFromCamera( mouse, camera );
-
-	// Calcula os objetos que intersetam o raio de escolha
-	let intersects = raycaster.intersectObjects( scene.children.name = "trash");
-
-	for (let i = 0; i < intersects.length; i++ ) {
-        intersects[i].object.material.color.set( 0xffffff );
-        remainingTrash--
-    }
-
-    /* if (remainingTrash >= 5) {
+    if (remainingTrash >= 5) {
         directionalLight.intensity = 0.5
     } else if (remainingTrash = 0) {
         directionalLight.intensity = 1
-    } */
-
+    }
 
     pivot.position.set(pos.x, pos.y, pos.z)
     pivot.rotation.y = angle
+    camera.rotation.y = angle
 
-    seesaw.rotation.x += speed
+    pivot.position.x += Math.sin(angle)
+    pivot.position.z += Math.cos(angle)
+
+    seesaw.rotation.x += seesawSpeed
     if (seesaw.rotation.x <= -0.2) {
-        speed += 0.01
+        seesawSpeed += 0.01
     } else if (seesaw.rotation.x >= 0.2) {
-        speed -= 0.01
+        seesawSpeed -= 0.01
     }
 
-    /* let relativeOffset = new THREE.Vector3(0, 0, 30);
+    let relativeOffset = new THREE.Vector3(0, 0, 0);
     // updates the offset with the object‘s global transformation matrix
     let cameraOffset = relativeOffset.applyMatrix4(pivot.matrixWorld);
     camera.position.copy(cameraOffset);
 
-    camera.lookAt(pivot.position) */
+    if (camera1isActive){
+        renderer.render(scene, camera);
+    }else{
+        renderer.render(scene, camera1);
+    }
 
-    renderer.render(scene, camera);
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap
     requestAnimationFrame(render);
 }
 
 function mouseDown(event) {
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    // Calcula os objetos que intersetam o raio de escolha
+    let intersects = raycaster.intersectObjects(remainingTrash);
+
+    if (intersects.length > 0) {
+        //assign the first intersected object to the selectedObject global variable
+        selectedObject = intersects[0].object;
+
+        // determine the offset between the point (in the plane) where we clicked and the center of the object
+        let intersectsPlane = raycaster.intersectObject(trash);
+
+        offset.copy(intersectsPlane[0].point).sub(selectedObject.position);
+        console.log("object selected ", selectedObject.position, offset)
+    }
 }
 
 function mouseMove(event) {
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+}
+
+function mouseUp(event) {
+    selectedObject = null;
 }
 
 function doKey(event) {
+    event.preventDefault();
     let key = event.key;
     if (pos.x > -75 && pos.x < 75 && pos.z > -50 && pos.z < 50) {
         if (key == "w") {
@@ -950,6 +985,11 @@ function doKey(event) {
         }
         else if (key == "e") {
             angle -= 0.1
+        }
+        if (key == 1) {
+            camera1isActive = true;
+        } else if (key == 2) {
+            camera1isActive = false;
         }
     }
     else if (pos.x == -75) {
