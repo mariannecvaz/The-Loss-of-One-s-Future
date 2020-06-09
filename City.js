@@ -5,11 +5,16 @@ let renderer = null,
     raycaster = new THREE.Raycaster(),
     mouse = new THREE.Vector2(),
     pivot = new THREE.Object3D(),
+    cube,
     pos = new THREE.Vector3(-50, 2.5, -45),
     angle = 0,
     remainingTrash = [],
     pickedUpTrash = 0,
-    selectedObject = null;
+    selectedObject = null,
+    forward = 0,
+    right = 0,
+    obstacles = [],
+    bbHelper;
 
 let camera1isActive = false
 
@@ -31,9 +36,6 @@ window.onload = function init() {
     camera1.position.z = 200;
     camera1.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera1);
-
-    /* let controls = new THREE.OrbitControls(camera);
-    controls.addEventListener('change', function () { renderer.render(scene, camera); }); */
 
     // Luz
     let ambientLight = new THREE.HemisphereLight(0xefffd0, 0.8)
@@ -60,13 +62,51 @@ window.onload = function init() {
 
     let axes = new THREE.AxesHelper(100)
     pivot.add(axes)
+    pivot.position.set(-50, 2.5, -45)
     scene.add(pivot)
 
     let cubeG = new THREE.BoxGeometry(5, 5, 5)
     let cubeM = new THREE.MeshNormalMaterial()
-    let cube = new THREE.Mesh(cubeG, cubeM)
+    cube = new THREE.Mesh(cubeG, cubeM)
+    cube.position.y = 1
     pivot.add(cube)
 
+    console.log("number: " + remainingTrash.length)
+    console.log(remainingTrash)
+
+
+    // Chão
+    createFloor()
+    // Prédios
+    createBuilding()
+    // Parque
+    createPark()
+    // Fábrica
+    createFactory()
+    // Árvores
+    addTree()
+    // Lixo
+    addTrash()
+
+    document.addEventListener("keyup", keyUp, false);
+    document.addEventListener("mousemove", mouseMove, false);
+    document.addEventListener("mousedown", mouseDown, false);
+    document.addEventListener("mouseup", mouseUp, false);
+
+    document.getElementById("remaining").innerHTML = remainingTrash.length;
+    document.getElementById("pickedUp").innerHTML = pickedUpTrash;
+
+    bbHelper = new THREE.BoxHelper(cube, 0x00FFFF);
+    scene.add(bbHelper);
+
+    document.addEventListener("keydown", doKey, false);
+
+
+    render();
+}
+
+// Função que adiciona o lixo/ecopontos
+function addTrash() {
     // Modelo do lixo
     let mtlTrashCan = new THREE.MTLLoader();
     mtlTrashCan.load('./models/Ecopontos.mtl', function (materials) {
@@ -115,6 +155,7 @@ window.onload = function init() {
             trash.name = "trash"
             scene.add(trash);
 
+            // alert("adicionado")
         });
     });
 
@@ -132,6 +173,7 @@ window.onload = function init() {
             trash1.castShadow = true;
             trash1.name = "trash"
             scene.add(trash);
+            // alert("adicionado")
         });
     });
 
@@ -149,6 +191,7 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
+            // alert("adicionado")
         });
     });
 
@@ -166,6 +209,7 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
+            // alert("adicionado")
         });
     });
 
@@ -184,6 +228,7 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
+            // alert("adicionado")
         });
     });
 
@@ -202,6 +247,7 @@ window.onload = function init() {
             trash.castShadow = true;
             trash.name = "trash"
             scene.add(trash);
+            // alert("adicionado")
         });
     });
 
@@ -219,34 +265,11 @@ window.onload = function init() {
             cigarett.castShadow = true;
             cigarett.name = "trash"
             scene.add(cigarett);
+            // alert("adicionado")
         });
     });
 
     remainingTrash.push(trash, trash1, trash2, trash3, trash4, trash5, cigarett)
-
-    console.log("number: " + remainingTrash.length)
-    console.log(remainingTrash)
-
-    document.addEventListener("keydown", doKey, false);
-    document.addEventListener("mousemove", mouseMove, false);
-    document.addEventListener("mousedown", mouseDown, false);
-    document.addEventListener("mouseup", mouseUp, false);
-
-    document.getElementById("remaining").innerHTML = remainingTrash.length;
-    document.getElementById("pickedUp").innerHTML = pickedUpTrash;
-
-    // Chão
-    createFloor()
-    // Prédios
-    createBuilding()
-    // Parque
-    createPark()
-    // Fábrica
-    createFactory()
-    // Árvores
-    addTree()
-
-    render();
 }
 
 //Função que adiciona as árvores
@@ -812,6 +835,8 @@ function createFloor() {
     grass5.castShadow = true;
     floor2.add(grass5)
 
+    obstacles.push(floor1, floor3, grass2, grass3)
+
     // River
     let riverGeometry = new THREE.PlaneGeometry(85, 20);
     let riverMaterial = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
@@ -833,6 +858,29 @@ function createFloor() {
     river1.castShadow = true;
     scene.add(river1)
 
+    let fenceG = new THREE.PlaneGeometry(150, 5);
+    let fenceM = new THREE.MeshPhongMaterial();
+    let fence = new THREE.Mesh(fenceG, fenceM);
+    fence.position.set(0, 2.5, -50)
+    scene.add(fence)
+
+    let fence2 = new THREE.Mesh(fenceG, fenceM);
+    fence2.position.set(0, 2.5, 50)
+    scene.add(fence2)
+
+    let fenceG1 = new THREE.PlaneGeometry(100, 5);
+    let fenceM1 = new THREE.MeshPhongMaterial();
+    let fence1 = new THREE.Mesh(fenceG1, fenceM1);
+    fence1.rotation.y = Math.PI / 2
+    fence1.position.set(-75, 2.5, 0)
+    scene.add(fence1)
+
+    let fence3 = new THREE.Mesh(fenceG1, fenceM1);
+    fence3.rotation.y = Math.PI / 2
+    fence3.position.set(75, 2.5, 0)
+    scene.add(fence3)
+
+    obstacles.push(fence, fence1, fence2, fence3)
 }
 
 function createPark() {
@@ -861,6 +909,7 @@ function createPark() {
     wall2.receiveShadow = true;
     wall2.castShadow = true;
     scene.add(wall2)
+    obstacles.push(wall, wall1, wall2)
 
     let seesawGeometry = new THREE.BoxGeometry(2.5, 0.5, 10)
     let seesawMaterial = new THREE.MeshPhongMaterial({ color: 0xA52A2A })
@@ -896,6 +945,7 @@ function createPark() {
 }
 
 let seesawSpeed = 0.01
+let speed = 0.5
 function render() {
     if (remainingTrash >= 5) {
         directionalLight.intensity = 0.5
@@ -903,13 +953,54 @@ function render() {
         directionalLight.intensity = 1
     }
 
-    pivot.position.set(pos.x, pos.y, pos.z)
-    pivot.rotation.y = angle
+    // pivot.position.set(pos.x, pos.y, pos.z)
+    cube.rotation.y = angle
     camera.rotation.y = angle
 
-    pivot.position.x += Math.sin(angle)
-    pivot.position.z += Math.cos(angle)
+    bbHelper.update();
 
+    let oldRot = pivot.rotation.y
+
+    //moving right
+    if (right == 1) {
+        pivot.rotation.y -= 0.05
+        if (checkCollisions()) {
+            // alert("colidiu")
+            pivot.rotation.y = oldRot
+        }
+    }
+    //moving left
+    else if (right == -1) {
+        pivot.rotation.y += 0.05
+        if (checkCollisions()) {
+            // alert("colidiu")
+            pivot.rotation.y = oldRot
+        }
+    }
+
+    let oldPos = pivot.position.clone();
+    // Movimento para frente
+    if (forward == 1) {
+        pivot.position.x += speed * Math.sin(pivot.rotation.y)
+        pivot.position.z += speed * Math.cos(pivot.rotation.y)
+        if (checkCollisions()) {
+            // alert("colidiu")
+            pivot.position.x = oldPos.x
+            pivot.position.z = oldPos.z
+        }
+    }
+    // Movimento para trás
+    else if (forward == -1) {
+        pivot.position.x -= speed * Math.sin(pivot.rotation.y)
+        pivot.position.z -= speed * Math.cos(pivot.rotation.y)
+        if (checkCollisions()) {
+            // alert("colidiu")
+            pivot.position.x = oldPos.x
+            pivot.position.z = oldPos.z
+        }
+    }
+
+    // Movimento do sobe e desce
     seesaw.rotation.x += seesawSpeed
     if (seesaw.rotation.x <= -0.2) {
         seesawSpeed += 0.01
@@ -917,20 +1008,33 @@ function render() {
         seesawSpeed -= 0.01
     }
 
+    // Camera segue o pivot
     let relativeOffset = new THREE.Vector3(0, 0, 0);
     // updates the offset with the object‘s global transformation matrix
     let cameraOffset = relativeOffset.applyMatrix4(pivot.matrixWorld);
     camera.position.copy(cameraOffset);
 
-    if (camera1isActive){
+    if (camera1isActive) {
         renderer.render(scene, camera);
-    }else{
+    } else {
         renderer.render(scene, camera1);
     }
 
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
     requestAnimationFrame(render);
+}
+
+function checkCollisions() {
+    let pivotBox = new THREE.Box3().setFromObject(cube);
+    for (var i = 0; i < obstacles.length; i++) {
+        let obstBox = new THREE.Box3().setFromObject(obstacles[i]);
+        let collision = pivotBox.intersectsBox(obstBox);
+        if (collision) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function mouseDown(event) {
@@ -966,42 +1070,32 @@ function mouseUp(event) {
 function doKey(event) {
     event.preventDefault();
     let key = event.key;
-    if (pos.x > -75 && pos.x < 75 && pos.z > -50 && pos.z < 50) {
-        if (key == "w") {
-            pos.x += 0.5
-            // console.log(pos.x, pos.y, pos.z)
-        }
-        else if (key == "s") {
-            pos.x -= 0.5
-        }
-        else if (key == "d") {
-            pos.z += 0.5
-        }
-        else if (key == "a") {
-            pos.z -= 0.5
-        }
-        else if (key == "q") {
-            angle += 0.1
-        }
-        else if (key == "e") {
-            angle -= 0.1
-        }
-        if (key == 1) {
-            camera1isActive = true;
-        } else if (key == 2) {
-            camera1isActive = false;
-        }
+    if (key == "w") {
+        forward = 1
     }
-    else if (pos.x == -75) {
-        pos.x = -74.5
+    else if (key == "s") {
+        forward = -1
     }
-    else if (pos.x == 75) {
-        pos.x = 74.5
+    else if (key == "d") {
+        right = 1
     }
-    else if (pos.z == -50) {
-        pos.z = -49.5
+    else if (key == "a") {
+        right = -1
     }
-    else if (pos.z == 50) {
-        pos.z = 49.5
+    if (key == 1) {
+        camera1isActive = true;
+    } else if (key == 2) {
+        camera1isActive = false;
+    }
+}
+
+function keyUp(event) {
+    event.preventDefault();
+    let key = event.key;
+    if (key == "w" || key == "s") {
+        forward = 0;
+    }
+    if (key == "d" || key == "a") {
+        right = 0;
     }
 }
