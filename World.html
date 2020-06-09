@@ -15,17 +15,30 @@
             src: url(font2.otf);
         }
 
-        .container {
+        /* .container {
             position: absolute;
             justify-content: center;
             display: block;
             top: 650px;
             left: 530px;
-        }
+        } */
 
         .buttonStart {
             font-family: Font2;
-            font-size: 50px;
+            font-size: 40px;
+            position: absolute;
+            bottom: 50px;
+            width: auto;
+            height: 60px;
+            left: 550px;
+
+        }
+        .title{
+            position: absolute;
+            color: white;
+            font-family: Font2;
+            left: 32%;
+            font-size: 60px;
         }
     </style>
 
@@ -33,9 +46,8 @@
 
 <body>
     <div id="canvas-container" style="position: absolute; left:0px; top:0px">
-        <div class="container" width="200px">
-            <button onclick="window.location.href='City.html'" class="buttonStart">INICIAR JOGO</button>
-        </div>
+        <h1 class="title">The Loss of One's Future</h1>
+        <button onclick="window.location.href='City.html'" class="buttonStart">Iniciar Jogo</button>
     </div>
 
     <script type="text/javascript">
@@ -89,19 +101,9 @@
 
             //Mesh 1
             sphere = new THREE.Mesh(geometry, material);
-            sphere.rotation.y = 0.2
+            sphere.rotation.y = 0.2;
+            sphere.position.y = -0.5;
             scene.add(sphere);
-
-            //Material 2
-            let geometry1 = new THREE.SphereGeometry(1, 150, 150);
-            let clouds = new THREE.TextureLoader().load("./images/fair_clouds_4k.png")
-            let material1 = new THREE.MeshPhongMaterial();
-            material1.map = clouds;
-            material1.transparent = 0.5
-
-            //Mesh 2
-            sphere1 = new THREE.Mesh(geometry1, material1);
-            // scene.add(sphere1);
 
             let geometry2 = new THREE.SphereGeometry(10, 200, 200);
             let stars = new THREE.TextureLoader().load("./images/galaxy_starfield.png")
@@ -124,7 +126,6 @@
             requestAnimationFrame(render);
             // move the light
             sphere.rotation.y = 10 * Math.sin(Date.now() / 100000);
-            sphere1.rotation.y = 10 * Math.sin(Date.now() / 100000);
             renderer.render(scene, camera);
         }
 
