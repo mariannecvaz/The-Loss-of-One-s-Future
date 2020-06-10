@@ -858,6 +858,7 @@ function createFloor() {
     river1.castShadow = true;
     scene.add(river1)
 
+    //Muro
     let fenceG = new THREE.PlaneGeometry(150, 5);
     let fenceM = new THREE.MeshPhongMaterial();
     let fence = new THREE.Mesh(fenceG, fenceM);
@@ -880,7 +881,7 @@ function createFloor() {
     fence3.position.set(75, 2.5, 0)
     scene.add(fence3)
 
-    obstacles.push(fence, fence1, fence2, fence3)
+    obstacles.push(fence, fence1, fence2, fence3);
 }
 
 function createPark() {
