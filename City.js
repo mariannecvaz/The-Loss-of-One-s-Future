@@ -28,11 +28,11 @@ window.onload = function init() {
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
-    // camera.position.set(300, 300, 300)
+    camera.position.set(-50, 0, -50)
     camera.lookAt(new THREE.Vector3(0, 0, 0))
 
     camera1 = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
-    camera1.position.y = 160;
+    camera1.position.y = 100;
     camera1.position.z = 200;
     camera1.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera1);
@@ -44,7 +44,7 @@ window.onload = function init() {
     directionalLight = new THREE.DirectionalLight(0xefffd0)
     directionalLight.intensity = 0.2;
     directionalLight.position.set(-200, 100, 40)
-    directionalLight.castShadow = true;
+    directionalLight.castShadow = true
     scene.add(directionalLight)
 
     // Luz Helper
@@ -104,7 +104,6 @@ window.onload = function init() {
 
     render();
 }
-
 // Função que adiciona o lixo/ecopontos
 function addTrash() {
     // Modelo do lixo
@@ -655,14 +654,32 @@ function createBuilding() {
 
 //Função que adiciona a fábrica
 function createFactory() {
-    let FactoryGeometry6 = new THREE.BoxGeometry(50, 20, 30, 3, 3, 3)
-    let FactoryMaterial6 = new THREE.MeshPhongMaterial({ color: 0x877663 })
-    let factory = new THREE.Mesh(FactoryGeometry6, FactoryMaterial6)
+    let factoryGeometry = new THREE.BoxGeometry(50, 20, 30, 3, 3, 3)
+    let factoryMaterial = new THREE.MeshPhongMaterial({ color: 0x877663 })
+    let factory = new THREE.Mesh(factoryGeometry, factoryMaterial)
     factory.position.set(-8, 11, -35)
     factory.flatShading = true
     factory.receiveShadow = true;
     factory.castShadow = true;
     scene.add(factory)
+
+    let chimneyGeometry = new THREE.CylinderGeometry(3, 3, 5)
+    let chimneyMaterial = new THREE.MeshPhongMaterial({ color: 0x9a7663 })
+    let chimney = new THREE.Mesh(chimneyGeometry, chimneyMaterial)
+    chimney.position.set(-15, 12, 0)
+    chimney.flatShading = true
+    chimney.receiveShadow = true;
+    chimney.castShadow = true;
+    factory.add(chimney)
+
+    let chimneyTopGeometry = new THREE.CylinderGeometry(4, 4, 2)
+    let chimneyTopMaterial = new THREE.MeshPhongMaterial({ color: 0x00000 })
+    let chimneyTop = new THREE.Mesh(chimneyTopGeometry, chimneyTopMaterial)
+    chimneyTop.position.y = 3
+    chimneyTop.flatShading = true
+    chimneyTop.receiveShadow = true;
+    chimneyTop.castShadow = true;
+    chimney.add(chimneyTop)
 
     let gateGeometry = new THREE.PlaneGeometry(20, 10)
     let gateMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide })
@@ -948,10 +965,12 @@ function createPark() {
 let seesawSpeed = 0.01
 let speed = 0.5
 function render() {
-    if (remainingTrash >= 5) {
+   if (remainingTrash >= 5) {
         directionalLight.intensity = 0.5
-    } else if (remainingTrash = 0) {
+    } else if (remainingTrash = 1) {
         directionalLight.intensity = 1
+    } else if (remainingTrash = 0) {
+        document.getElementById("end").innerHTML
     }
 
     // pivot.position.set(pos.x, pos.y, pos.z)
@@ -1087,6 +1106,12 @@ function doKey(event) {
         camera1isActive = true;
     } else if (key == 2) {
         camera1isActive = false;
+    }
+    if (key == "r") {
+        window.location.href='City.html'
+    }
+    if (key === "Escape") {
+        window.location.href='World.html'
     }
 }
 
