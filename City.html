@@ -5,10 +5,46 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
+        @font-face {
+            font-family: Font;
+            src: url(Font.ttf);
+        }
+
+        @font-face {
+            font-family: Font2;
+            src: url(font2.otf);
+        }
+
         body {
             /* set margin to 0 and overflow to hidden, to use the complete page */
             margin: 0;
             overflow: hidden;
+        }
+
+        #end {
+            background-image: url('../images/galaxy_starfield.png');
+        }
+
+        #title {
+            font-family: Font2;
+            font-size: 130px;
+            bottom: 50px;
+            width: auto;
+            margin-left: 32vw;
+            margin-top: 13vw;
+            color: white;
+        }
+
+        h2{
+            font-family: Font;
+            margin-left: 40vw;
+            color: white;
+        }
+
+        p {
+            font-family: Font;
+            margin-left: 3vw;
+            color: white;
         }
     </style>
 </head>
@@ -20,10 +56,18 @@
     <script type="text/javascript" src="libs/OBJLoader.js"></script>
     <script type="text/javascript" src="City.js"></script>
 
-    <div id="info" style="position: absolute; margin-left: 15px;">
+    <div style="position: absolute; margin-left: 15px;">
         <h3>Lixo Por Apanhar:</h3>
         <b id="pickedUp"></b>/<b id="remaining"></b>
+
     </div>
+    <!-- <div id="end" style="position: absolute; height: 100%; width: 100%;">
+        <h1 id="title"> Fim do Jogo </h1>
+        <h2>Pressione R para jogar de novo.</h2>
+        <h2>Pressione ESC para sair.</h2>
+        <p style="margin-top: 15vw;"><b>Made by: </b> Marianne Vaz, Raquel Silva e Rita Cardoso</p>
+        <p>@ESMAD TSIW</p>
+    </div> -->
 </body>
 
 </html>
