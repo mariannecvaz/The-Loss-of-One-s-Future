@@ -970,7 +970,7 @@ function render() {
     } else if (remainingTrash = 1) {
         directionalLight.intensity = 1
     } else if (remainingTrash = 0) {
-        document.getElementById("end").innerHTML
+        document.getElementById("end").style.display = "block"
     }
 
     // pivot.position.set(pos.x, pos.y, pos.z)
