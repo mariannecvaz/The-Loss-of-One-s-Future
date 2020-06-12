@@ -35,7 +35,7 @@
             color: white;
         }
 
-        h2{
+        h2 {
             font-family: Font;
             margin-left: 40vw;
             color: white;
@@ -45,6 +45,11 @@
             font-family: Font;
             margin-left: 3vw;
             color: white;
+        }
+
+        #r {
+            position: relative;
+            margin-top: 260%;
         }
     </style>
 </head>
@@ -58,8 +63,11 @@
 
     <div style="position: absolute; margin-left: 15px;">
         <h3>Lixo Por Apanhar:</h3>
-        <b id="pickedUp"></b>/<b id="remaining"></b>
-
+        <h4><b id="pickedUp"></b>/<b id="remaining"></b></h4>
+        <div style="background: white; width: 120%; height: auto; opacity: 0.5;">
+            <h3 id="r" style="margin-left: 5%">Pressione <b>R</b> para jogar de novo.</h3>
+            <h3 id="esc" style="margin-left: 5%">Pressione <b>ESC</b> para sair.</h3>
+        </div>
     </div>
     <div id="end" style="position: absolute; height: 100%; width: 100%; display: none;">
         <h1 id="title"> Fim do Jogo </h1>
