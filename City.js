@@ -14,8 +14,12 @@ let renderer = null,
     forward = 0,
     right = 0,
     obstacles = [],
-    bbHelper, bbHelper2,
-    gatePivot;
+    bbHelper, bbHelper2, bbHelper3,
+    gatePivot = new THREE.Object3D,
+    buildingPivot,
+    riverPivot1,
+    riverPivot2,
+    factoryPivot;
 
 let camera1isActive = false
 
@@ -65,13 +69,40 @@ window.onload = function init() {
 
     let axes = new THREE.AxesHelper(100)
     pivot.add(axes)
-    pivot.position.set(-50, 0, -45)
+    pivot.position.set(-50, 1, -40)
     scene.add(pivot)
 
-    let cubeG = new THREE.BoxGeometry(1, 1, 1)
+    let buildingPivotG = new THREE.BoxGeometry(44, 22, 33);
+    let buildingPivotM = new THREE.MeshPhongMaterial({ transparent: true, opacity: 0 })
+    buildingPivot = new THREE.Mesh(buildingPivotG, buildingPivotM)
+    buildingPivot.position.set(57, 12, 22)
+    scene.add(buildingPivot)
+
+    let factoryPivotG = new THREE.BoxGeometry(62, 22, 43);
+    let factoryPivotM = new THREE.MeshPhongMaterial({ transparent: true, opacity: 0 })
+    factoryPivot = new THREE.Mesh(factoryPivotG, factoryPivotM)
+    factoryPivot.position.set(-12, 12, -31)
+    scene.add(factoryPivot)
+
+    let riverPivot1G = new THREE.BoxGeometry(75.2, 2, 13.5);
+    let riverPivot1M = new THREE.MeshPhongMaterial({ transparent: true, opacity: 0 })
+    riverPivot1 = new THREE.Mesh(riverPivot1G, riverPivot1M)
+    riverPivot1.position.set(-32.8, 1, 25)
+    scene.add(riverPivot1)
+
+    let riverPivot2G = new THREE.BoxGeometry(12, 2, 75.2);
+    let riverPivot2M = new THREE.MeshPhongMaterial({ transparent: true, opacity: 0 })
+    riverPivot2 = new THREE.Mesh(riverPivot2G, riverPivot2M)
+    riverPivot2.position.set(-64.4, 1, -17)
+    scene.add(riverPivot2)
+
+    bbHelper2 = new THREE.BoxHelper(factoryPivot, 0x00FFFF);
+    scene.add(bbHelper2);
+
+    let cubeG = new THREE.BoxGeometry(4, 4, 4)
     let cubeM = new THREE.MeshNormalMaterial()
     cube = new THREE.Mesh(cubeG, cubeM)
-    cube.position.y = 0
+    cube.position.y = 2
     pivot.add(cube)
 
     // Chão
@@ -110,11 +141,11 @@ function addTrash() {
         loader.load('./models/Ecopontos.obj', function (object) {
             trashCan = object;
             trashCan.scale.set(0.015, 0.015, 0.015);
-            trashCan.position.set(32, 1, 5)
+            trashCan.position.set(-24, -9, -8)
             trashCan.rotation.y = - Math.PI / 2
             trash.receiveShadow = true;
             trash.castShadow = true;
-            scene.add(trashCan);
+            buildingPivot.add(trashCan);
         });
     });
 
@@ -125,12 +156,12 @@ function addTrash() {
         loader.load('./models/Ecopontos.obj', function (object) {
             trashCan = object;
             trashCan.scale.set(0.015, 0.015, 0.015);
-            trashCan.position.set(-45.5, 1, -30)
+            trashCan.position.set(-33, -11, 2)
             trashCan.rotation.y = - Math.PI / 2
             trash.flatShading = true
             trash.receiveShadow = true;
             trash.castShadow = true;
-            scene.add(trashCan);
+            factoryPivot.add(trashCan);
         });
     });
 
@@ -242,7 +273,7 @@ function addTrash() {
         loader.load('./models/groupTrash.obj', function (object) {
             trash = object;
             trash.scale.set(0.017, 0.017, 0.017)
-            trash.position.set(31.5, 1, 5)
+            trash.position.set(31.5, 1, 10)
             trash.rotation.y = - Math.PI / 2
             trash.flatShading = true
             trash.receiveShadow = true;
@@ -271,7 +302,6 @@ function addTrash() {
             // alert("adicionado")
         });
     });
-
 }
 
 //Função que adiciona as árvores
@@ -406,12 +436,11 @@ function createBuilding() {
     let BuildingGeometry1 = new THREE.BoxGeometry(10, 20, 10, 3, 3, 3)
     let BuildingMaterial1 = new THREE.MeshPhongMaterial({ color: 0x303030 })
     let building1 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial1)
-    building1.position.set(68, 10.5, 25)
+    building1.position.set(11, 0, 10)
     building1.flatShading = true
     building1.receiveShadow = true;
     building1.castShadow = true;
-    scene.add(building1)
-
+    buildingPivot.add(building1)
 
     let windowGeometry1 = new THREE.PlaneGeometry(2, 3)
     let windowMaterial1 = new THREE.MeshPhongMaterial({ color: 0x8ABEC2 })
@@ -460,11 +489,11 @@ function createBuilding() {
 
     let BuildingMaterial2 = new THREE.MeshPhongMaterial({ color: 0x9C5941 })
     let building2 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial2)
-    building2.position.set(56, 10.5, 25)
+    building2.position.set(-1, 0, 10)
     building2.flatShading = true
     building2.receiveShadow = true;
     building2.castShadow = true;
-    scene.add(building2)
+    buildingPivot.add(building2)
 
 
     let window20 = new THREE.Mesh(windowGeometry1, windowMaterial1)
@@ -509,11 +538,11 @@ function createBuilding() {
 
     let BuildingGeometry3 = new THREE.BoxGeometry(10, 10, 10, 3, 3, 3)
     let building3 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial1)
-    building3.position.set(43, 5.5, 25)
+    building3.position.set(-13, -5, 10)
     building3.flatShading = true
     building3.receiveShadow = true;
     building3.castShadow = true;
-    scene.add(building3)
+    buildingPivot.add(building3)
 
     let window17 = new THREE.Mesh(windowGeometry1, windowMaterial1)
     window17.position.set(-3, 2, 5.1)
@@ -533,12 +562,12 @@ function createBuilding() {
 
     let BuildingMaterial4 = new THREE.MeshPhongMaterial({ color: 0x877663 })
     let building4 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial4)
-    building4.position.set(68, 10.5, 10)
+    building4.position.set(11, 0, -7)
     building4.rotation.y = Math.PI
     building4.flatShading = true
     building4.receiveShadow = true;
     building4.castShadow = true;
-    scene.add(building4)
+    buildingPivot.add(building4)
 
 
     let window29 = new THREE.Mesh(windowGeometry1, windowMaterial1)
@@ -583,12 +612,12 @@ function createBuilding() {
 
     let BuildingMaterial5 = new THREE.MeshPhongMaterial({ color: 0x9C5941 })
     let building5 = new THREE.Mesh(BuildingGeometry3, BuildingMaterial5)
-    building5.position.set(56, 5.5, 10)
+    building5.position.set(-1, 0, -7)
     building5.rotation.y = Math.PI
     building5.flatShading = true
     building5.receiveShadow = true;
     building5.castShadow = true;
-    scene.add(building5)
+    buildingPivot.add(building5)
 
     let window47 = new THREE.Mesh(windowGeometry1, windowMaterial1)
     window47.position.set(-3, 2, 5.1)
@@ -607,12 +636,12 @@ function createBuilding() {
     building5.add(door6)
 
     let building6 = new THREE.Mesh(BuildingGeometry1, BuildingMaterial1)
-    building6.position.set(43, 10.5, 10)
+    building6.position.set(-13, 0, -7)
     building6.rotation.y = Math.PI
     building6.flatShading = true
     building6.receiveShadow = true;
     building6.castShadow = true;
-    scene.add(building6)
+    buildingPivot.add(building6)
 
     let window38 = new THREE.Mesh(windowGeometry1, windowMaterial1)
     window38.position.set(-3, 3, 5.1)
@@ -660,11 +689,11 @@ function createFactory() {
     let factoryGeometry = new THREE.BoxGeometry(50, 20, 30, 3, 3, 3)
     let factoryMaterial = new THREE.MeshPhongMaterial({ color: 0x877663 })
     let factory = new THREE.Mesh(factoryGeometry, factoryMaterial)
-    factory.position.set(-8, 11, -35)
+    factory.position.set(2, 0, -4)
     factory.flatShading = true
     factory.receiveShadow = true;
     factory.castShadow = true;
-    scene.add(factory)
+    factoryPivot.add(factory)
 
     let chimneyGeometry = new THREE.CylinderGeometry(3, 3, 5)
     let chimneyMaterial = new THREE.MeshPhongMaterial({ color: 0x9a7663 })
@@ -738,35 +767,35 @@ function createFactory() {
     let fenceMaterial = new THREE.MeshPhongMaterial({ color: 0x303030, side: THREE.DoubleSide })
     let fence = new THREE.Mesh(fenceGeometry, fenceMaterial)
     fence.rotation.y = Math.PI / 2
-    fence.position.set(-40, 2.5, -30)
+    fence.position.set(28.9, -8, 0)
     fence.flatShading = true
     fence.receiveShadow = true;
     fence.castShadow = true;
-    scene.add(fence)
+    factoryPivot.add(fence)
 
     let fence1 = new THREE.Mesh(fenceGeometry, fenceMaterial)
     fence1.rotation.y = Math.PI / 2
-    fence1.position.set(18, 2.5, -30)
+    fence1.position.set(-27, -8, 0)
     fence1.flatShading = true
     fence1.receiveShadow = true;
     fence1.castShadow = true;
-    scene.add(fence1)
+    factoryPivot.add(fence1)
 
     let fenceGeometry1 = new THREE.BoxGeometry(30, 5, 1.5)
     let fence2 = new THREE.Mesh(fenceGeometry1, fenceMaterial)
-    fence2.position.set(-25, 2.5, -10.75)
+    fence2.position.set(-12.5, -8, 20)
     fence2.flatShading = true
     fence2.receiveShadow = true;
     fence2.castShadow = true;
-    scene.add(fence2)
+    factoryPivot.add(fence2)
 
     let fenceGeometry2 = new THREE.BoxGeometry(5, 5, 1.5)
     let fence3 = new THREE.Mesh(fenceGeometry2, fenceMaterial)
-    fence3.position.set(15.5, 2.5, -10.75)
+    fence3.position.set(27, -8, 20)
     fence3.flatShading = true
     fence3.receiveShadow = true;
     fence3.castShadow = true;
-    scene.add(fence3)
+    factoryPivot.add(fence3)
 }
 
 //Função que adiciona o chão
@@ -837,8 +866,6 @@ function createFloor() {
     grass3.receiveShadow = true;
     grass3.castShadow = true;
     scene.add(grass3)
-    bbHelper2 = new THREE.BoxHelper(grass3, 0x00FFFF);
-    scene.add(bbHelper2);
 
     let grassGeometry4 = new THREE.BoxGeometry(15, 40, 1);
     let grass4 = new THREE.Mesh(grassGeometry4, grassMaterial);
@@ -857,28 +884,26 @@ function createFloor() {
     grass5.castShadow = true;
     floor2.add(grass5)
 
-    obstacles.push(floor1, floor3, grass2, grass3)
-
     // River
     let riverGeometry = new THREE.PlaneGeometry(85, 20);
     let riverMaterial = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
     let river = new THREE.Mesh(riverGeometry, riverMaterial);
     river.rotation.x = Math.PI / 2
-    river.position.set(-30, 0.1, 25)
+    river.position.set(0, -0.7, 0)
     river.flatShading = true
     river.receiveShadow = true;
     river.castShadow = true;
-    scene.add(river)
+    riverPivot1.add(river)
 
     let riverGeometry1 = new THREE.PlaneGeometry(15, 85);
     let riverMaterial1 = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
     let river1 = new THREE.Mesh(riverGeometry1, riverMaterial1);
     river1.rotation.x = Math.PI / 2
-    river1.position.set(-65, 0.1, -7.5)
+    river1.position.set(0, -0.7, 5)
     river1.flatShading = true
     river1.receiveShadow = true;
     river1.castShadow = true;
-    scene.add(river1)
+    riverPivot2.add(river1)
 
     // Muro
     let fenceG = new THREE.PlaneGeometry(150, 5);
@@ -934,7 +959,6 @@ function createPark() {
     scene.add(wall2)
     obstacles.push(wall, wall1, wall2)
 
-    gatePivot = new THREE.Object3D
     gatePivot.position.set(70.5, 2.25, -13)
     scene.add(gatePivot)
 
@@ -983,13 +1007,12 @@ let speed = 0.5
 
 function render() {
     document.getElementById("remaining").innerHTML = remainingTrash.length;
-    document.getElementById("pickedUp").innerHTML = pickedUpTrash;
 
-    if (remainingTrash.length >= 8) {
+    if (remainingTrash.length >= 4) {
         directionalLight.intensity = 0.2
-    } else if (remainingTrash.length == 7) {
+    } else if (remainingTrash.length == 2) {
         directionalLight.intensity = 1
-    } else if (remainingTrash.length == 6) {
+    } else if (remainingTrash.length == 0) {
         document.getElementById("end").style.display = "block"
     }
 
@@ -1065,15 +1088,24 @@ function render() {
 
 function checkCollisions() {
     let pivotBox = new THREE.Box3().setFromObject(cube);
-
-    for (var i = 0; i < obstacles.length; i++) {
-        let obstBox = new THREE.Box3().setFromObject(obstacles[i]);
-        let collision = pivotBox.intersectsBox(obstBox);
-        if (collision) {
+    let obstBox = new THREE.Box3().setFromObject(buildingPivot);
+    let collision = pivotBox.intersectsBox(obstBox);
+    let obstBox1 = new THREE.Box3().setFromObject(factoryPivot);
+    let collision1 = pivotBox.intersectsBox(obstBox1);
+    let obstBox2 = new THREE.Box3().setFromObject(riverPivot1);
+    let collision2 = pivotBox.intersectsBox(obstBox2);
+    let obstBox3 = new THREE.Box3().setFromObject(riverPivot2);
+    let collision3 = pivotBox.intersectsBox(obstBox3);
+    if (collision || collision1 || collision2 || collision3) {
+        return true;
+    }
+    for (let i = 0; i < obstacles.length; i++) {
+        let obstBox4 = new THREE.Box3().setFromObject(obstacles[i]);
+        let collision4 = pivotBox.intersectsBox(obstBox4);
+        if (collision4) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -1096,18 +1128,11 @@ function mouseDown(event) {
             remainingTrash.splice(deleteI, 1)
             console.log(remainingTrash.length)
             console.log("apanhei")
-
         }
         else {
             gatePivot.rotation.y = -1.5
             console.log("portão")
         }
-        // determine the offset between the point (in the plane) where we clicked and the center of the object
-        // let intersectsPlane = raycaster.intersectObject(trash);
-
-        // offset.copy(intersectsPlane[0].point).sub(selectedObject.position);
-        // console.log("object selected ", selectedObject.position, offset)
-
     }
     else {
         console.log("não apanhei" + remainingTrash.length)
