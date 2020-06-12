@@ -14,7 +14,7 @@ let renderer = null,
     forward = 0,
     right = 0,
     obstacles = [],
-    bbHelper,
+    bbHelper, bbHelper2,
     gatePivot;
 
 let camera1isActive = false
@@ -65,13 +65,13 @@ window.onload = function init() {
 
     let axes = new THREE.AxesHelper(100)
     pivot.add(axes)
-    pivot.position.set(-50, 2.5, -45)
+    pivot.position.set(-50, 0, -45)
     scene.add(pivot)
 
-    let cubeG = new THREE.BoxGeometry(3, 3, 3)
+    let cubeG = new THREE.BoxGeometry(1, 1, 1)
     let cubeM = new THREE.MeshNormalMaterial()
     cube = new THREE.Mesh(cubeG, cubeM)
-    cube.position.y = 1
+    cube.position.y = 0
     pivot.add(cube)
 
     // Chão
@@ -91,9 +91,6 @@ window.onload = function init() {
     document.addEventListener("mousemove", mouseMove, false);
     document.addEventListener("mousedown", mouseDown, false);
     document.addEventListener("mouseup", mouseUp, false);
-
-    
-
     bbHelper = new THREE.BoxHelper(cube, 0x00FFFF);
     scene.add(bbHelper);
 
@@ -101,8 +98,7 @@ window.onload = function init() {
 
     render();
 }
-document.getElementById("remaining").innerHTML = remainingTrash.length;
-    document.getElementById("pickedUp").innerHTML = pickedUpTrash;
+
 // Função que adiciona o lixo/ecopontos
 function addTrash() {
     // Modelo do lixo
@@ -834,12 +830,15 @@ function createFloor() {
 
     let GrassGeometry3 = new THREE.BoxGeometry(79.5, 15, 1);
     let grass3 = new THREE.Mesh(GrassGeometry3, grassMaterial);
+
     grass3.rotation.x = Math.PI / 2
     grass3.position.set(-19.7, 0.5, 10)
     grass3.flatShading = true
     grass3.receiveShadow = true;
     grass3.castShadow = true;
     scene.add(grass3)
+    bbHelper2 = new THREE.BoxHelper(grass3, 0x00FFFF);
+    scene.add(bbHelper2);
 
     let grassGeometry4 = new THREE.BoxGeometry(15, 40, 1);
     let grass4 = new THREE.Mesh(grassGeometry4, grassMaterial);
@@ -945,6 +944,7 @@ function createPark() {
     gate.position.x = -3.5
     gate.name = "gate"
     gatePivot.add(gate)
+    remainingTrash.push(gate)
 
     let seesawGeometry = new THREE.BoxGeometry(2.5, 0.5, 10)
     let seesawMaterial = new THREE.MeshPhongMaterial({ color: 0xA52A2A })
@@ -982,13 +982,16 @@ let seesawSpeed = 0.01
 let speed = 0.5
 
 function render() {
-    // if (remainingTrash.length >= 5) {
-    //     directionalLight.intensity = 0.5
-    // } else if (remainingTrash.length = 1) {
-    //     directionalLight.intensity = 1
-    // } else if (remainingTrash.length = 0) {
-    //     document.getElementById("end").style.display = "block"
-    // }
+    document.getElementById("remaining").innerHTML = remainingTrash.length;
+    document.getElementById("pickedUp").innerHTML = pickedUpTrash;
+
+    if (remainingTrash.length >= 8) {
+        directionalLight.intensity = 0.2
+    } else if (remainingTrash.length == 7) {
+        directionalLight.intensity = 1
+    } else if (remainingTrash.length == 6) {
+        document.getElementById("end").style.display = "block"
+    }
 
     camera.rotation.y = angle
 
@@ -1062,57 +1065,41 @@ function render() {
 
 function checkCollisions() {
     let pivotBox = new THREE.Box3().setFromObject(cube);
+
     for (var i = 0; i < obstacles.length; i++) {
         let obstBox = new THREE.Box3().setFromObject(obstacles[i]);
         let collision = pivotBox.intersectsBox(obstBox);
         if (collision) {
-            // console.log("apanhei")
             return true;
         }
     }
-    // console.log("não apanhei")
+
     return false;
 }
 
-// function rayCaster() {
-//     // Step 2: Detect normal objects
-//     //1. sets the mouse position with a coordinate system where the center
-//     //   of the screen is the origin
-//     mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-//     mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
 
-//     //2. set the picking ray from the camera position and mouse coordinates
-//     raycaster.setFromCamera(mouse, camera);
-
-//     //3. compute intersections (no 2nd parameter true anymore)
-//     var intersects = raycaster.intersectObjects(scene.children);
-
-//     for (var i = 0; i < intersects.length; i++) {
-//         console.log(intersects[i]);
-//         /*
-//             An intersection has the following properties :
-//                 - object : intersected object (THREE.Mesh)
-//                 - distance : distance from camera to intersection (number)
-//                 - face : intersected face (THREE.Face3)
-//                 - faceIndex : intersected face index (number)
-//                 - point : intersection point (THREE.Vector3)
-//                 - uv : intersection point in the object's UV coordinates (THREE.Vector2)
-//         */
-//     }
-// }
 function mouseDown(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera1);
+    let deleteI
+    raycaster.setFromCamera(mouse, camera);
 
     // Calcula os objetos que intersetam o raio de escolha
     let intersects = raycaster.intersectObjects(remainingTrash, true);
     if (intersects.length > 0) {
         //assign the first intersected object to the selectedObject global variable
         selectedObject = intersects[0].object;
-        if (selectedObject.name === "gate") {
-            // gatePivot.rotation.y = -1.5
+        if (selectedObject.name != "gate") {
+
+            selectedObject.position.y = -100
+            deleteI = remainingTrash.indexOf(selectedObject)
+            remainingTrash.splice(deleteI, 1)
+            console.log(remainingTrash.length)
+            console.log("apanhei")
+
+        }
+        else {
+            gatePivot.rotation.y = -1.5
             console.log("portão")
         }
         // determine the offset between the point (in the plane) where we clicked and the center of the object
@@ -1120,7 +1107,7 @@ function mouseDown(event) {
 
         // offset.copy(intersectsPlane[0].point).sub(selectedObject.position);
         // console.log("object selected ", selectedObject.position, offset)
-        console.log("apanhei")
+
     }
     else {
         console.log("não apanhei" + remainingTrash.length)
