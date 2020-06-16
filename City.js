@@ -9,12 +9,11 @@ let renderer = null,
     pos = new THREE.Vector3(-50, 2.5, -45),
     angle = 0,
     remainingTrash = [],
-    pickedUpTrash = 0,
     selectedObject = null,
     forward = 0,
     right = 0,
     obstacles = [],
-    bbHelper, bbHelper2, bbHelper3,
+    // bbHelper, bbHelper2, bbHelper3,
     gatePivot = new THREE.Object3D,
     buildingPivot,
     riverPivot1,
@@ -52,7 +51,7 @@ window.onload = function init() {
     scene.add(ambientLight)
 
     directionalLight = new THREE.DirectionalLight(0xefffd0)
-    directionalLight.intensity = 0.2;
+    directionalLight.intensity = 0.1;
     directionalLight.position.set(-200, 100, 40)
     scene.add(directionalLight)
 
@@ -87,10 +86,10 @@ window.onload = function init() {
     riverPivot2.position.set(-64.4, 1, -17)
     scene.add(riverPivot2)
 
-    bbHelper2 = new THREE.BoxHelper(factoryPivot, 0x00FFFF);
-    scene.add(bbHelper2);
+    // bbHelper2 = new THREE.BoxHelper(factoryPivot, 0x00FFFF);
+    // scene.add(bbHelper2);
 
-    let cubeG = new THREE.BoxGeometry(4, 4, 4)
+    let cubeG = new THREE.BoxGeometry(2, 2, 2)
     let cubeM = new THREE.MeshNormalMaterial()
     cube = new THREE.Mesh(cubeG, cubeM)
     cube.position.set(-50, 4, -40)
@@ -112,11 +111,10 @@ window.onload = function init() {
     addTrash()
 
     document.addEventListener("keyup", keyUp, false);
-    document.addEventListener("mousemove", mouseMove, false);
     document.addEventListener("mousedown", mouseDown, false);
     document.addEventListener("mouseup", mouseUp, false);
-    bbHelper = new THREE.BoxHelper(cube, 0x00FFFF);
-    scene.add(bbHelper);
+    // bbHelper = new THREE.BoxHelper(cube, 0x00FFFF);
+    // scene.add(bbHelper);
 
     document.addEventListener("keydown", doKey, false);
 
@@ -334,7 +332,7 @@ function addTrash() {
     });
 
     let trash12 = new THREE.MTLLoader();
-    trash11.load('./models/Garbage.mtl', function (materials) {
+    trash12.load('./models/Garbage.mtl', function (materials) {
         materials.preload();
         let loader = new THREE.OBJLoader();
         loader.setMaterials(materials);
@@ -989,16 +987,15 @@ let speed = 0.5
 
 function render() {
     document.getElementById("remaining").innerHTML = remainingTrash.length - 1;
-
-    if (remainingTrash.length >= 4) {
-        directionalLight.intensity = 0.2
-    } else if (remainingTrash.length == 2) {
+    if (remainingTrash.length >= 15) {
+        directionalLight.intensity = 0.5
+    } else if (remainingTrash.length == 14) {
         directionalLight.intensity = 1
-    } else if (remainingTrash.length == 0) {
+    } else if (remainingTrash.length == 13) {
         document.getElementById("end").style.display = "block"
     }
 
-    bbHelper.update();
+    // bbHelper.update();
 
     let oldRot = cube.rotation.y
 
@@ -1006,7 +1003,7 @@ function render() {
     if (right == 1) {
         cube.rotation.y -= 0.05
         if (checkCollisions()) {
-            // alert("colidiu")
+            console.log("colidiu rotação2")
             cube.rotation.y = oldRot
         }
     }
@@ -1014,7 +1011,7 @@ function render() {
     else if (right == -1) {
         cube.rotation.y += 0.05
         if (checkCollisions()) {
-            // alert("colidiu")
+            console.log("colidiu rotação1")
             cube.rotation.y = oldRot
         }
     }
@@ -1025,9 +1022,9 @@ function render() {
         cube.position.x += speed * Math.sin(cube.rotation.y)
         cube.position.z += speed * Math.cos(cube.rotation.y)
         if (checkCollisions()) {
-            // alert("colidiu")
-            cube.position.x = oldPos.x - 0.5
-            cube.position.z = oldPos.z - 0.5
+            console.log("colidiu para a frente")
+            cube.position.x = oldPos.x
+            cube.position.z = oldPos.z
         }
     }
     // Movimento para trás
@@ -1035,9 +1032,9 @@ function render() {
         cube.position.x -= speed * Math.sin(cube.rotation.y)
         cube.position.z -= speed * Math.cos(cube.rotation.y)
         if (checkCollisions()) {
-            // alert("colidiu")
-            cube.position.x = oldPos.x + 0.5
-            cube.position.z = oldPos.z + 0.5
+            console.log("colidiu")
+            cube.position.x = oldPos.x
+            cube.position.z = oldPos.z
         }
     }
 
@@ -1096,6 +1093,8 @@ function mouseDown(event) {
     let deleteI
     raycaster.setFromCamera(mouse, camera);
 
+    console.log(remainingTrash.length)
+
     // Calcula os objetos que intersetam o raio de escolha
     let intersects = raycaster.intersectObjects(remainingTrash, true);
     if (intersects.length > 0) {
@@ -1125,11 +1124,6 @@ function mouseDown(event) {
     else {
         console.log("não apanhei" + remainingTrash.length)
     }
-}
-
-function mouseMove(event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 }
 
 function mouseUp(event) {
