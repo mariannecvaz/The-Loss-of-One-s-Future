@@ -6,22 +6,18 @@ let renderer = null,
     mouse = new THREE.Vector2(),
     pivot = new THREE.Object3D(),
     cube,
-    pos = new THREE.Vector3(-50, 2.5, -45),
     angle = 0,
     remainingTrash = [],
     selectedObject = null,
     forward = 0,
     right = 0,
     obstacles = [],
-    // bbHelper, bbHelper2, bbHelper3,
     gatePivot = new THREE.Object3D,
     buildingPivot,
     riverPivot1,
     riverPivot2,
     factoryPivot,
     point = 0;
-
-let camera1isActive = true
 
 window.onload = function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -40,12 +36,6 @@ window.onload = function init() {
     camera.position.set(-50, 0, -50);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-    camera1 = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
-    camera1.position.y = 100;
-    camera1.position.z = 150;
-    camera1.lookAt(new THREE.Vector3(0, 0, 0));
-    scene.add(camera1);
-
     // Luz
     let ambientLight = new THREE.HemisphereLight(0xefffd0, 0.8)
     scene.add(ambientLight)
@@ -62,40 +52,38 @@ window.onload = function init() {
     road.rotation.x = Math.PI / 2
     scene.add(road)
 
+    // Área de colisão com os prédios
     let buildingPivotG = new THREE.BoxGeometry(44, 22, 33);
     let buildingPivotM = new THREE.MeshPhongMaterial({ transparent: true, opacity: 0 })
     buildingPivot = new THREE.Mesh(buildingPivotG, buildingPivotM)
     buildingPivot.position.set(57, 12, 22)
     scene.add(buildingPivot)
 
+    // Área de colisão com a fábrica
     let factoryPivotG = new THREE.BoxGeometry(62, 22, 43);
     let factoryPivotM = new THREE.MeshPhongMaterial({ transparent: true, opacity: 0 })
     factoryPivot = new THREE.Mesh(factoryPivotG, factoryPivotM)
     factoryPivot.position.set(-12, 12, -31)
     scene.add(factoryPivot)
 
-    let riverPivot1G = new THREE.BoxGeometry(75.2, 2, 13.5);
+    // Área de colisão com os rios
+    let riverPivot1G = new THREE.BoxGeometry(75.2, 4, 13.5);
     let riverPivot1M = new THREE.MeshPhongMaterial({ transparent: true, opacity: 0 })
     riverPivot1 = new THREE.Mesh(riverPivot1G, riverPivot1M)
-    riverPivot1.position.set(-32.8, 1, 25)
+    riverPivot1.position.set(-32.8, 2, 25)
     scene.add(riverPivot1)
 
-    let riverPivot2G = new THREE.BoxGeometry(12, 2, 75.2);
+    let riverPivot2G = new THREE.BoxGeometry(12, 4, 75.2);
     let riverPivot2M = new THREE.MeshPhongMaterial({ transparent: true, opacity: 0 })
     riverPivot2 = new THREE.Mesh(riverPivot2G, riverPivot2M)
-    riverPivot2.position.set(-64.4, 1, -17)
+    riverPivot2.position.set(-64.4, 2, -17)
     scene.add(riverPivot2)
-
-    // bbHelper2 = new THREE.BoxHelper(factoryPivot, 0x00FFFF);
-    // scene.add(bbHelper2);
 
     let cubeG = new THREE.BoxGeometry(2, 2, 2)
     let cubeM = new THREE.MeshNormalMaterial()
     cube = new THREE.Mesh(cubeG, cubeM)
     cube.position.set(-50, 4, -40)
     scene.add(cube)
-    let axes = new THREE.AxesHelper(1)
-    cube.add(axes)
 
     // Chão
     createFloor()
@@ -113,8 +101,6 @@ window.onload = function init() {
     document.addEventListener("keyup", keyUp, false);
     document.addEventListener("mousedown", mouseDown, false);
     document.addEventListener("mouseup", mouseUp, false);
-    // bbHelper = new THREE.BoxHelper(cube, 0x00FFFF);
-    // scene.add(bbHelper);
 
     document.addEventListener("keydown", doKey, false);
 
@@ -409,13 +395,13 @@ function addTrash() {
 
 //Função que adiciona as árvores
 function addTree() {
-    // Log geometries/material
+    // Tronco geometria/material
     let logGeometry = new THREE.CylinderGeometry(0.5, 0.5, 6)
     let logGeometry1 = new THREE.CylinderGeometry(0.5, 0.5, 8)
     let logTexture = new THREE.TextureLoader().load("./images/logTexture.png")
     let logMaterial = new THREE.MeshPhongMaterial({ map: logTexture })
 
-    // Leafs geometry/material
+    // Folhas geometria/material
     let branchGeometry = new THREE.SphereGeometry(3, 7, 10)
     let branchGeometry1 = new THREE.SphereGeometry(4, 7, 10)
     let branchMaterial = new THREE.MeshLambertMaterial({ color: 0x00BB00 })
@@ -892,14 +878,14 @@ function createFloor() {
     let riverMaterial = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
     let river = new THREE.Mesh(riverGeometry, riverMaterial);
     river.rotation.x = Math.PI / 2
-    river.position.set(0, -0.7, 0)
+    river.position.set(0, -1.5, 0)
     riverPivot1.add(river)
 
     let riverGeometry1 = new THREE.PlaneGeometry(15, 85);
     let riverMaterial1 = new THREE.MeshPhongMaterial({ color: 0x053A3B, side: THREE.DoubleSide });
     let river1 = new THREE.Mesh(riverGeometry1, riverMaterial1);
     river1.rotation.x = Math.PI / 2
-    river1.position.set(0, -0.7, 5)
+    river1.position.set(0, -1.5, 5)
     riverPivot2.add(river1)
 
     // Muro
@@ -987,31 +973,28 @@ let speed = 0.5
 
 function render() {
     document.getElementById("remaining").innerHTML = remainingTrash.length - 1;
+    // Os números não estão como queremos devido ao bug do picking
     if (remainingTrash.length >= 15) {
         directionalLight.intensity = 0.5
-    } else if (remainingTrash.length == 14) {
+    } else if (remainingTrash.length == 8) {
         directionalLight.intensity = 1
-    } else if (remainingTrash.length == 13) {
+    } else if (remainingTrash.length == 5) {
         document.getElementById("end").style.display = "block"
     }
 
-    // bbHelper.update();
 
     let oldRot = cube.rotation.y
-
-    //moving right
+    // Mover para a direita
     if (right == 1) {
         cube.rotation.y -= 0.05
         if (checkCollisions()) {
-            console.log("colidiu rotação2")
             cube.rotation.y = oldRot
         }
     }
-    //moving left
+    // Mover para a esquerda
     else if (right == -1) {
         cube.rotation.y += 0.05
         if (checkCollisions()) {
-            console.log("colidiu rotação1")
             cube.rotation.y = oldRot
         }
     }
@@ -1022,7 +1005,6 @@ function render() {
         cube.position.x += speed * Math.sin(cube.rotation.y)
         cube.position.z += speed * Math.cos(cube.rotation.y)
         if (checkCollisions()) {
-            console.log("colidiu para a frente")
             cube.position.x = oldPos.x
             cube.position.z = oldPos.z
         }
@@ -1032,7 +1014,6 @@ function render() {
         cube.position.x -= speed * Math.sin(cube.rotation.y)
         cube.position.z -= speed * Math.cos(cube.rotation.y)
         if (checkCollisions()) {
-            console.log("colidiu")
             cube.position.x = oldPos.x
             cube.position.z = oldPos.z
         }
@@ -1046,24 +1027,19 @@ function render() {
         seesawSpeed -= 0.01
     }
 
-    // Camera segue o pivot
+    // Camera segue o cubo
     let relativeOffset = new THREE.Vector3(0, 0, -0.1);
-    // updates the offset with the object‘s global transformation matrix
+
     let cameraOffset = relativeOffset.applyMatrix4(cube.matrixWorld);
     camera.position.copy(cameraOffset);
 
     camera.lookAt(cube.position)
-    camera1.lookAt(cube.position)
-
-    if (camera1isActive) {
-        renderer.render(scene, camera);
-    } else {
-        renderer.render(scene, camera1);
-    }
+    renderer.render(scene, camera);
 
     requestAnimationFrame(render);
 }
 
+// Colisões com os prédios, a fábrica, os muros e o rio
 function checkCollisions() {
     let pivotBox = new THREE.Box3().setFromObject(cube);
     let obstBox = new THREE.Box3().setFromObject(buildingPivot);
@@ -1087,49 +1063,44 @@ function checkCollisions() {
     return false;
 }
 
+// Função que apanha o lixo e abre o portão
 function mouseDown(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     let deleteI
     raycaster.setFromCamera(mouse, camera);
 
-    console.log(remainingTrash.length)
-
     // Calcula os objetos que intersetam o raio de escolha
     let intersects = raycaster.intersectObjects(remainingTrash, true);
     if (intersects.length > 0) {
-        //assign the first intersected object to the selectedObject global variable
         selectedObject = intersects[0].object;
         if (selectedObject.name != "gate") {
 
             selectedObject.position.y = -200
             deleteI = remainingTrash.indexOf(selectedObject)
             remainingTrash.splice(deleteI, 1)
-            console.log(remainingTrash.length)
-            console.log("apanhei")
         }
         else {
             if (point % 2 == 0) {
                 gatePivot.rotation.y = -1.5
                 point++
-                console.log("portão")
             } else {
                 gatePivot.rotation.y = 0
                 point++
-                console.log("portão")
             }
-
         }
     }
     else {
-        console.log("não apanhei" + remainingTrash.length)
+        console.log("não apanhei lixo")
     }
 }
 
+// Deixa o objeto a nulo
 function mouseUp(event) {
     selectedObject = null;
 }
 
+// Função para as teclas
 function doKey(event) {
     event.preventDefault();
     let key = event.key;
@@ -1145,11 +1116,6 @@ function doKey(event) {
     else if (key == "a") {
         right = -1
     }
-    if (key == 1) {
-        camera1isActive = true;
-    } else if (key == 2) {
-        camera1isActive = false;
-    }
     if (key == "r") {
         window.location.href = 'City.html'
     }
@@ -1158,6 +1124,7 @@ function doKey(event) {
     }
 }
 
+// Função que permite que o cubo pare assim que o botão deixa de ser pressionado
 function keyUp(event) {
     event.preventDefault();
     let key = event.key;
@@ -1169,6 +1136,7 @@ function keyUp(event) {
     }
 }
 
+// Altera o jogo consoante o tamanho da janela
 function resize() {
     const HEIGHT = window.innerHeight;
     const WIDTH = window.innerWidth;
